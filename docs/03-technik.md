@@ -22,7 +22,7 @@
 
 ```
 app/
-  layout.tsx            Kopfzeile, Fußzeile, Handy-Leiste, JSON-LD „Optician“, Umami, Staging-Banner
+  layout.tsx            Kopfzeile, Fußzeile, Handy-Leiste, JSON-LD „Optician“, Umami, noindex auf Staging
   page.tsx              Startseite
   sehhilfen/            Brillen, Gläser (Glas-Finder), Sonnenbrillen, Kontaktlinsen
   augengesundheit/      Screening, trockene Augen (TearStim), Visualtraining, FAQ

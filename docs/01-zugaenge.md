@@ -22,7 +22,7 @@ Zwei Sites aus **einem** Repo (wie bei MB Barbier):
 | | Production | Staging |
 |---|---|---|
 | Branch | `main` | `staging` |
-| `NEXT_PUBLIC_IS_STAGING` | – | `true` (rotes Banner, keine Google-Indexierung) |
+| `NEXT_PUBLIC_IS_STAGING` | – | `true` (keine Google-Indexierung, kein sichtbarer Hinweis) |
 | `SITE_URL` | `https://www.weitmarer-brillenstudio.de` | Staging-URL |
 | `RESEND_API_KEY` | ja | ja |
 | `TERMIN_TO_EMAIL` | Postfach des Ladens | Test-Postfach (David) |

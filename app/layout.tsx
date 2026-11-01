@@ -65,11 +65,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="de" className={archivo.variable}>
       <body>
-        {isStaging && (
-          <div className="bg-pupille px-4 py-1.5 text-center text-[13px] font-semibold text-white">
-            Staging – Testversion. Änderungen hier prüfen, dann auf die Live-Seite übernehmen.
-          </div>
-        )}
         <a href="#inhalt" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-white focus:px-4 focus:py-2">Zum Inhalt springen</a>
         <Kopfzeile />
         <main id="inhalt">{children}</main>

@@ -8,7 +8,7 @@
 #               IMAGE_CDN_URL=https://<bunny-pull-zone>.b-cdn.net   (optional)
 #               NEXT_PUBLIC_UMAMI_WEBSITE_ID=<id>                    (nach Hetzner-Setup)
 #               RESEND_API_KEY, TERMIN_TO_EMAIL, TERMIN_FROM_EMAIL
-#   Staging:    NEXT_PUBLIC_IS_STAGING=true   (Banner + noindex)
+#   Staging:    NEXT_PUBLIC_IS_STAGING=true   (keine Google-Indexierung)
 #               RESEND_API_KEY, TERMIN_TO_EMAIL=<Test-Postfach>
 
 [build]
