@@ -5,6 +5,7 @@ import { AnliegenWaehler } from '@/components/AnliegenWaehler'
 import { OeffnungszeitenKarte } from '@/components/Oeffnungszeiten'
 import { AktionStartseite } from '@/components/Aktionen'
 import { Icon, LogoAuge } from '@/components/Icon'
+import { MehrAlsBrillen } from '@/components/MehrAlsBrillen'
 
 const h = startseite.hero
 const meister = team.filter((m) => /meister/i.test(m.rolle)).length
@@ -224,6 +225,8 @@ export default function Startseite() {
           <span key={m} className={`whitespace-nowrap pr-14 text-[40px] font-bold uppercase [font-stretch:70%] ${i % 2 ? 'text-blau' : 'text-ink'}`}>{m}</span>
         ))}
       </Laufband>
+
+      <MehrAlsBrillen />
 
       {/* ── Aktion, Öffnungszeiten, Anfahrt ─────────────────── */}
       <section className="mx-auto grid max-w-[1320px] grid-cols-[repeat(auto-fit,minmax(340px,1fr))] gap-5 px-6 py-28">

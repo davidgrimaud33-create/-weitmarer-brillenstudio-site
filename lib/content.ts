@@ -11,6 +11,7 @@ import markenJson from '@/content/marken.json'
 import startseiteJson from '@/content/startseite.json'
 import garantienJson from '@/content/garantien.json'
 import augengesundheitJson from '@/content/augengesundheit.json'
+import besondersJson from '@/content/besonderes.json'
 
 export type Zeitfenster = [string, string]
 export type Oeffnungszeiten = {
@@ -29,5 +30,6 @@ export const marken = markenJson.marken as string[]
 export const startseite = startseiteJson as typeof startseiteJson & { anliegen: Anliegen[] }
 export const garantien = garantienJson
 export const augengesundheit = augengesundheitJson
+export const besonderes = besondersJson
 
 export const adresseEinzeilig = `${stammdaten.strasse}, ${stammdaten.plz} ${stammdaten.ort}`

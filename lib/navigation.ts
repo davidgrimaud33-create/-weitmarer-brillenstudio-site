@@ -19,6 +19,8 @@ export const SUCHINDEX = [
   { titel: 'Ratenkauf RELAX24', href: '/service-preise#relax24', stichworte: 'relax24 raten finanzierung monatlich' },
   { titel: 'Aktuelle Aktionen', href: '/service-preise#aktionen', stichworte: 'aktion angebot rabatt preis' },
   { titel: 'Reparatur & Brillenservice', href: '/service-preise#reparatur', stichworte: 'reparatur service reinigung nasenpad passform' },
+  { titel: 'Holzkern-Uhren', href: '/holzkern', stichworte: 'holzkern uhr uhren holz stein armbanduhr geschenk' },
+  { titel: 'Irisfotografie (externe Seite, Herne)', href: 'https://eyemazy-herne.de/', stichworte: 'iris foto irisfotografie eyemazy auge bild geschenk leinwand' },
   { titel: 'Team', href: '/ueber-uns#team', stichworte: 'team mitarbeiter alexander claudia jäh meister' },
   { titel: 'Termin vereinbaren', href: '/termin', stichworte: 'termin buchen anfrage kontakt' },
   { titel: 'Öffnungszeiten & Anfahrt', href: '/termin#anfahrt', stichworte: 'öffnungszeiten adresse anfahrt parken route telefon' },

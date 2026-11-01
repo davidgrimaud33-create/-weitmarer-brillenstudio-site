@@ -1,0 +1,28 @@
+{
+  "_hinweis": "Angebote neben Brillen und Kontaktlinsen: Holzkern-Uhren (eigene Seite /holzkern) und Irisfotografie (externe Seite). Texte frei änderbar, Fakten nicht erfinden.",
+  "holzkern": {
+    "teaser": "Uhren aus edlem Holz und Stein – jedes Stück ein Unikat. Bei uns im Laden zum Anschauen und Anprobieren.",
+    "heroBild": "/images/holzkern/holzkern-05.jpg",
+    "heroAlt": "Holzkern-Uhr mit Holzarmband und Steinzifferblatt auf einem Stein",
+    "galerie": [
+      { "bild": "/images/holzkern/holzkern-06.jpg", "alt": "Automatikuhr mit Holzgehäuse und blauem Zifferblatt" },
+      { "bild": "/images/holzkern/holzkern-01.jpg", "alt": "Damenuhr mit Holzzifferblatt am Handgelenk" },
+      { "bild": "/images/holzkern/holzkern-04.jpg", "alt": "Uhr mit grauem Steinzifferblatt vor grünen Blättern" },
+      { "bild": "/images/holzkern/holzkern-08.jpg", "alt": "Uhr mit rötlichem Holzgehäuse und Steinzifferblatt" },
+      { "bild": "/images/holzkern/holzkern-02.jpg", "alt": "Dunkle Holzuhr am Handgelenk" },
+      { "bild": "/images/holzkern/holzkern-09.jpg", "alt": "Damenuhr mit Holzzifferblatt und Metallarmband" },
+      { "bild": "/images/holzkern/holzkern-03.jpg", "alt": "Rückseite einer Automatikuhr mit sichtbarem Uhrwerk" },
+      { "bild": "/images/holzkern/holzkern-07.jpg", "alt": "Zierliche Damenuhr auf einem Kissen" },
+      { "bild": "/images/holzkern/holzkern-show.jpg", "alt": "Holzkern-Uhr mit Verpackung auf Holztisch" }
+    ]
+  },
+  "irisfotografie": {
+    "titel": "Irisfotografie",
+    "teaser": "Ein Foto Ihrer Iris als Kunstwerk – als Druck, auf Leinwand oder hinter Glas, auch als Geschenkgutschein.",
+    "ort": "im Brillenstudio Focus in Herne",
+    "url": "https://eyemazy-herne.de/",
+    "linkText": "Zur Irisfotografie",
+    "bild": "/images/besonderes/irisfotografie.jpg",
+    "bildAlt": "Illustration eines Auges zwischen tropischen Blättern und Edelsteinen"
+  }
+}

@@ -58,6 +58,10 @@
   to = "/sehhilfen#glaeser"
   status = 301
 [[redirects]]
+  from = "/produkte/holzkern/"
+  to = "/holzkern"
+  status = 301
+[[redirects]]
   from = "/produkte/*"
   to = "/sehhilfen"
   status = 301

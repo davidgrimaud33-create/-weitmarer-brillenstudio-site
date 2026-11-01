@@ -8,6 +8,7 @@ const SEITEN: { pfad: string; prio: number }[] = [
   { pfad: '/service-preise', prio: 0.8 },
   { pfad: '/termin', prio: 0.8 },
   { pfad: '/ueber-uns', prio: 0.7 },
+  { pfad: '/holzkern', prio: 0.6 },
   { pfad: '/impressum', prio: 0.2 },
 ]
 

@@ -28,6 +28,7 @@ app/
   augengesundheit/      Screening, trockene Augen (TearStim), Visualtraining, FAQ
   service-preise/       Garantien, RELAX24, Aktionen, Reparatur
   ueber-uns/            Team, Laden, Marken
+  holzkern/             Holzkern-Uhren (nicht im Hauptmenü; Einstieg über Startseite „Mehr als Brillen“, Fußzeile, Suche)
   termin/               Terminanfrage in 3 Schritten, Öffnungszeiten, Anfahrt
   impressum/ datenschutz/
   api/termin/route.ts   Mailversand

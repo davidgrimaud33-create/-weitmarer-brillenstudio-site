@@ -31,6 +31,7 @@ Niemals ohne ausdrückliche Freigabe auf `main` pushen. Niemals `git push --forc
 | Startseite (Hero-Text, Hero-Bild, Zitat, Bewertungen, Anliegen) | `content/startseite.json` |
 | Augenscreening, Visualtraining, FAQ | `content/augengesundheit.json` |
 | Adresse, Telefon, E-Mail, Parkhinweis | `content/stammdaten.json` |
+| Holzkern-Uhren (Texte, Fotos) und Irisfotografie (Link, Text) | `content/besonderes.json` + Fotos in `public/images/holzkern/` |
 | Texte, die nicht in JSON stehen | in `app/<seite>/page.tsx` (vorsichtig, nur Text ändern) |
 
 Regeln für JSON: Anführungszeichen und Kommas nicht kaputt machen. Datumsformat immer `JJJJ-MM-TT`,

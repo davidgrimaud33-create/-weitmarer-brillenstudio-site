@@ -27,7 +27,7 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        source: '/:path(|sehhilfen|augengesundheit|service-preise|ueber-uns|termin|impressum|datenschutz)',
+        source: '/:path(|sehhilfen|augengesundheit|service-preise|ueber-uns|holzkern|termin|impressum|datenschutz)',
         headers: STATIC_CDN_CACHE,
       },
     ]

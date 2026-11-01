@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { HAUPTMENUE } from '@/lib/navigation'
-import { stammdaten } from '@/lib/content'
+import { stammdaten, besonderes } from '@/lib/content'
 
 export function Fusszeile() {
   return (
@@ -17,6 +17,8 @@ export function Fusszeile() {
               <li key={m.href}><Link href={m.href} className="text-auf-dunkel hover:text-white">{m.label}</Link></li>
             ))}
             <li><Link href="/termin" className="text-auf-dunkel hover:text-white">Termin &amp; Kontakt</Link></li>
+            <li><Link href="/holzkern" className="text-auf-dunkel hover:text-white">Holzkern-Uhren</Link></li>
+            <li><a href={besonderes.irisfotografie.url} target="_blank" rel="noopener" className="text-auf-dunkel hover:text-white">Irisfotografie ↗</a></li>
           </ul>
         </div>
         <div className="flex-[1_1_220px]">

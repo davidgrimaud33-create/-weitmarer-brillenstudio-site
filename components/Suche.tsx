@@ -44,10 +44,17 @@ export function Suche({ offen, schliessen }: { offen: boolean; schliessen: () =>
           {treffer.length === 0 && <li className="p-4 text-text-3">Nichts gefunden. Rufen Sie uns gern an: 0234 43 21 41</li>}
           {treffer.map((t) => (
             <li key={t.href}>
-              <Link href={t.href} onClick={schliessen} className="flex items-center justify-between rounded-xl px-4 py-3 text-ink no-underline hover:bg-blau-zart">
-                <span className="font-semibold">{t.titel}</span>
-                <Icon name="pfeil" size={18} className="text-blau" />
-              </Link>
+              {t.href.startsWith('http') ? (
+                <a href={t.href} target="_blank" rel="noopener" onClick={schliessen} className="flex items-center justify-between rounded-xl px-4 py-3 text-ink no-underline hover:bg-blau-zart">
+                  <span className="font-semibold">{t.titel}</span>
+                  <span aria-hidden className="text-blau">↗</span>
+                </a>
+              ) : (
+                <Link href={t.href} onClick={schliessen} className="flex items-center justify-between rounded-xl px-4 py-3 text-ink no-underline hover:bg-blau-zart">
+                  <span className="font-semibold">{t.titel}</span>
+                  <Icon name="pfeil" size={18} className="text-blau" />
+                </Link>
+              )}
             </li>
           ))}
         </ul>
