@@ -1,0 +1,148 @@
+@import "tailwindcss";
+
+/* ── Design-Tokens (Entwurf 2) ─────────────────────────────────────── */
+@theme {
+  --color-ink: #0E1B2B;
+  --color-ink-2: #16263A;
+  --color-ink-line: #253A54;
+  --color-blau: #0A62A8;
+  --color-blau-dunkel: #074A80;
+  --color-blau-hell: #5AA8E6;
+  --color-blau-zart: #E3EDF7;
+  --color-blau-blass: #9CC7EC;
+  --color-pupille: #E2231A;
+  --color-grund: #F4F2EE;
+  --color-text-2: #3D4A59;
+  --color-text-3: #4A5868;
+  --color-auf-dunkel: #A9B8C7;
+  --font-sans: var(--font-archivo), system-ui, sans-serif;
+  --radius-pill: 999px;
+}
+
+html { scroll-behavior: smooth; overflow-x: clip; }
+body {
+  margin: 0;
+  background: var(--color-grund);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+/* in @layer base, damit Utility-Klassen wie text-white auf Links gewinnen */
+@layer base {
+  a { color: var(--color-blau); }
+  a:hover { color: var(--color-blau-dunkel); }
+}
+:focus-visible { outline: 3px solid var(--color-blau-hell); outline-offset: 3px; }
+
+/* ── Typografie ────────────────────────────────────────────────────── */
+@layer components {
+  .display {
+    font-weight: 780;
+    font-stretch: 70%;
+    text-transform: uppercase;
+    line-height: 0.9;
+    letter-spacing: -0.005em;
+  }
+  .kicker {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-blau);
+  }
+  .condensed { font-weight: 750; font-stretch: 75%; }
+  .verlauf-text {
+    background: linear-gradient(100deg, #0A62A8 0%, #3E95DA 30%, #9CC7EC 45%, #0A62A8 60%, #0A62A8 100%);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .glas {
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(16px) saturate(1.4);
+    -webkit-backdrop-filter: blur(16px) saturate(1.4);
+    border: 1px solid rgba(255, 255, 255, 0.95);
+  }
+  .hero-grund {
+    background:
+      radial-gradient(1100px 700px at 88% 0%, #D6E6F5 0%, rgba(214, 230, 245, 0) 62%),
+      radial-gradient(900px 620px at 0% 100%, #F2E7D8 0%, rgba(242, 231, 216, 0) 60%),
+      linear-gradient(180deg, #F7F6F3 0%, #EEF2F6 100%);
+  }
+  .linsen-rahmen {
+    padding: 3px;
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.95) 0%, rgba(156, 199, 236, 0.7) 45%, rgba(10, 98, 168, 0.75) 100%);
+    box-shadow: 0 80px 120px -60px rgba(10, 98, 168, 0.6), 0 30px 60px -34px rgba(14, 27, 43, 0.45);
+  }
+  .bento {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-rows: 270px;
+    gap: 18px;
+  }
+  @media (max-width: 980px) { .bento { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 600px) {
+    .bento { grid-template-columns: 1fr; grid-auto-rows: auto; }
+    .bento > * { grid-column: auto !important; grid-row: auto !important; min-height: 240px; }
+  }
+}
+
+/* ── Animationen ───────────────────────────────────────────────────── */
+@keyframes focusIn { from { filter: blur(18px); transform: scale(1.08); } to { filter: blur(0); transform: scale(1); } }
+@keyframes sharpen { 0% { filter: blur(12px); opacity: .35; } 100% { filter: blur(0); opacity: 1; } }
+@keyframes rise { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
+@keyframes marquee { to { transform: translateX(-50%); } }
+@keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(52,199,120,.55); } 70% { box-shadow: 0 0 0 9px rgba(52,199,120,0); } 100% { box-shadow: 0 0 0 0 rgba(52,199,120,0); } }
+@keyframes reveal { from { opacity: 0; transform: translateY(48px); } to { opacity: 1; transform: none; } }
+@keyframes draw { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes drawY { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes drift { 0% { transform: translate(0,0) scale(1); } 50% { transform: translate(-60px,40px) scale(1.08); } 100% { transform: translate(30px,-20px) scale(.96); } }
+@keyframes drift2 { 0% { transform: translate(0,0) scale(1); } 50% { transform: translate(70px,-50px) scale(1.1); } 100% { transform: translate(-20px,30px) scale(1); } }
+@keyframes spinSlow { to { transform: rotate(360deg); } }
+@keyframes sheen { 0%, 62% { background-position: 160% 0; } 100% { background-position: -60% 0; } }
+@keyframes shimmer { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+@keyframes floatY { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+@keyframes pop { 0% { transform: scale(.6); opacity: 0; } 60% { transform: scale(1.08); opacity: 1; } 100% { transform: scale(1); } }
+
+.a-focus { animation: focusIn 1.8s cubic-bezier(.2,.7,.2,1) both; }
+.a-scharf { display: inline-block; animation: sharpen 2s .5s cubic-bezier(.2,.7,.2,1) both, shimmer 7s 2.6s linear infinite; }
+.a-rise { animation: rise .9s cubic-bezier(.2,.7,.2,1) both; }
+.a-d1 { animation-delay: .15s; } .a-d2 { animation-delay: .3s; } .a-d3 { animation-delay: .45s; }
+.a-marquee { display: flex; width: max-content; animation: marquee 38s linear infinite; }
+.a-marquee-slow { display: flex; width: max-content; animation: marquee 60s linear infinite; }
+.a-pulse { animation: pulse 2s infinite; }
+.a-orb1 { animation: drift 22s ease-in-out infinite alternate; }
+.a-orb2 { animation: drift2 28s ease-in-out infinite alternate; }
+.a-orb3 { animation: drift 17s ease-in-out infinite alternate-reverse; }
+.a-spin { animation: spinSlow 120s linear infinite; }
+.a-spin-rev { animation: spinSlow 90s linear infinite reverse; }
+.a-sheen { background-size: 250% 100%; animation: sheen 9s 2.4s ease-in-out infinite; }
+.a-float { animation: rise .9s .45s cubic-bezier(.2,.7,.2,1) both, floatY 7s 1.4s ease-in-out infinite; }
+.a-float2 { animation: rise .9s .3s cubic-bezier(.2,.7,.2,1) both, floatY 8s 2.2s ease-in-out infinite; }
+.a-pop { animation: pop .6s cubic-bezier(.2,.7,.2,1) both; }
+
+.kachel img { transition: transform .8s cubic-bezier(.2,.7,.2,1); }
+.kachel:hover img { transform: scale(1.06); }
+.kachel .pfeil { transition: transform .3s; }
+.kachel:hover .pfeil { transform: translateX(6px); }
+.hebt { transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s; }
+.hebt:hover { transform: translateY(-5px); box-shadow: 0 30px 60px -30px rgba(10,98,168,.45); }
+
+/* Scroll-Animationen: nur wo der Browser sie kann (Chrome/Edge), sonst einfach sichtbar */
+@supports (animation-timeline: view()) {
+  .a-reveal { animation: reveal linear both; animation-timeline: view(); animation-range: entry 0% cover 30%; }
+  .a-linie { transform-origin: left; animation: draw linear both; animation-timeline: view(); animation-range: entry 10% cover 45%; }
+  .a-linie-y { transform-origin: top; animation: drawY linear both; animation-timeline: view(); animation-range: entry 20% cover 70%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+}
+
+.scrollbar-schmal { scrollbar-width: thin; scroll-snap-type: x mandatory; }
+.scrollbar-schmal > * { scroll-snap-align: start; }

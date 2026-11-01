@@ -1,0 +1,83 @@
+name: Guard media size
+
+on:
+  push:
+    branches: [main, staging]
+    paths:
+      - 'public/**'
+  workflow_dispatch:
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  LIMIT_BYTES: 5242880  # 5 MB
+  LIMIT_LABEL: "5 MB"
+
+jobs:
+  guard:
+    # Skip bot commits (optimize-images, etc.) et commits avec [skip guard].
+    if: |
+      github.actor != 'github-actions[bot]' &&
+      !contains(github.event.head_commit.message, '[skip guard]')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect oversized media in this push
+        env:
+          GH_BEFORE: ${{ github.event.before }}
+          GH_AFTER: ${{ github.event.after }}
+        run: |
+          set -euo pipefail
+          ZERO_SHA="0000000000000000000000000000000000000000"
+
+          # Range de fichiers : added/modified sous public/ entre before..after.
+          if [[ -z "${GH_BEFORE:-}" || "$GH_BEFORE" == "$ZERO_SHA" ]]; then
+            # Premier push (rare) : on regarde HEAD^ → HEAD si possible.
+            FILES=$(git diff --name-only --diff-filter=AM --no-renames HEAD^..HEAD -- 'public/' 2>/dev/null || git ls-files public/)
+          else
+            FILES=$(git diff --name-only --diff-filter=AM --no-renames "$GH_BEFORE" "$GH_AFTER" -- 'public/')
+          fi
+
+          if [[ -z "$FILES" ]]; then
+            echo "Aucun fichier public/ ajouté ou modifié dans ce push."
+            exit 0
+          fi
+
+          fail=0
+          while IFS= read -r f; do
+            [[ -z "$f" ]] && continue
+            [[ ! -f "$f" ]] && continue
+            size=$(wc -c < "$f")
+            if (( size > LIMIT_BYTES )); then
+              mb=$(awk -v s="$size" 'BEGIN { printf "%.2f", s/1024/1024 }')
+              echo "::error file=$f,title=Média trop lourd::${mb} MB dépasse la limite de ${LIMIT_LABEL}"
+              echo "  ${mb} MB  $f"
+              fail=1
+            fi
+          done <<< "$FILES"
+
+          if (( fail )); then
+            echo ""
+            echo "================================================================================"
+            echo "🚫 Au moins un fichier média dépasse ${LIMIT_LABEL} dans ce push."
+            echo ""
+            echo "📷 Pour les images JPG/PNG :"
+            echo "   - Lancer localement: node scripts/optimize-images.mjs --only=<chemin>"
+            echo "   - Commit le .webp généré, retirer l'original du HEAD"
+            echo "   - L'Action optimize-images.yml fait normalement ça automatiquement —"
+            echo "     vérifier qu'elle a bien tourné sur les commits précédents."
+            echo ""
+            echo "🎥 Pour les vidéos :"
+            echo "   - Préférer un hébergement externe (Cloudinary, Bunny Stream)."
+            echo "   - Garder une vidéo en git gonfle l'historique pour toujours."
+            echo ""
+            echo "🔓 Bypass pour ce commit (à utiliser avec parcimonie) :"
+            echo "   - Inclure [skip guard] dans le message de commit."
+            echo "================================================================================"
+            exit 1
+          fi
+
+          echo "✓ Aucun fichier média ne dépasse ${LIMIT_LABEL}."

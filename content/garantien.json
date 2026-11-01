@@ -1,0 +1,21 @@
+{
+  "_hinweis": "Garantien und Leistungen – Quelle: alte Leistungsseite. Werden auf Startseite und Service & Preise verwendet.",
+  "garantien": [
+    { "zahl": "6", "einheit": "Wochen", "titel": "Geld-zurück-Garantie", "kurz": "Geld zurück", "text": "Sehen Sie dasselbe Produkt innerhalb von 6 Wochen anderswo günstiger, nehmen wir es zurück und erstatten den Kaufpreis." },
+    { "zahl": "6", "einheit": "Monate", "titel": "Verträglichkeitsgarantie", "kurz": "Verträglich", "text": "Auf alle Gleitsichtbrillen: Kommen Sie wider Erwarten nicht zurecht, tauschen wir die Brille in den ersten 6 Monaten nach Übergabe um." },
+    { "zahl": "3", "einheit": "Jahre", "titel": "Garantie", "kurz": "3 Jahre Garantie", "text": "Über die gesetzlichen 2 Jahre hinaus ein weiteres Jahr auf Material- und Herstellungsfehler." },
+    { "zahl": "1", "einheit": "Jahr", "titel": "Service-Paket", "kurz": "Service-Paket", "text": "Jede von uns gefertigte Brille ist ein Jahr abgesichert: Bei Bruch, Beschädigung oder Diebstahl Ersatz in gleicher Art für 50 % des ursprünglichen Preises." },
+    { "zahl": "0", "einheit": "Euro", "titel": "Sehstärkenbestimmung", "kurz": "Sehstärke kostenlos", "text": "Wir ermitteln Ihre aktuelle Sehstärke exakt – beim Kauf einer Brille kostenlos." }
+  ],
+  "serviceNachKauf": "Reinigung, Funktionskontrolle und Optimierung der Passform – jederzeit.",
+  "relax24": {
+    "vorteile": [
+      "Kostenlose Sehstärkenbestimmung",
+      "50 % Ersatz bei Sehstärkenänderung, Beschädigung, Bruch, Diebstahl oder Verlust",
+      "Kostenloser Brillenservice: Passform, Funktionskontrolle, Nasenpad-Austausch, Ultraschallreinigung"
+    ],
+    "finanzpartner": "Optica Dr. Güldener GmbH, Marienstr. 10, 70178 Stuttgart",
+    "rechnerAktiv": false,
+    "_rechnerHinweis": "Ratenrechner erst auf true setzen, wenn Alexander bestätigt hat, dass die Rate = Preis / 24 ohne Zinsen ist."
+  }
+}

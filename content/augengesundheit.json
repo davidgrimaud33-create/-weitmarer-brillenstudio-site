@@ -1,0 +1,28 @@
+{
+  "_hinweis": "Inhalte der Seite Augengesundheit. Gesundheitsaussagen vor Änderung bitte rechtlich prüfen lassen (Heilmittelwerbegesetz).",
+  "screening": {
+    "dauer": "[DAUER]",
+    "preis": "[PREIS]",
+    "messungen": [
+      { "icon": "auge", "titel": "Netzhaut-Aufnahme", "text": "Bildaufnahme der Netzhaut (Fundus-Betrachtung) mit dem Laser-Scan" },
+      { "icon": "druck", "titel": "Augeninnendruck & Hornhaut", "text": "Messung des Drucks und der Hornhautdicke – berührungslos und ohne Tropfen" },
+      { "icon": "sonne", "titel": "Tag- und Nachtsehen", "text": "Bestimmung der Fehlsichtigkeit bei Tag und Nacht in Hundertstel-Dioptrien" },
+      { "icon": "wuerfel", "titel": "3D-Augenprüfung", "text": "Augenrefraktion mit der 3D-Augenprüfung" },
+      { "icon": "monitor", "titel": "Augenfehler sichtbar machen", "text": "Visuelle Darstellung der Augenfehler, damit Sie verstehen, was wir messen" },
+      { "icon": "dokument", "titel": "Auswertung mit Bildern", "text": "Schriftlich zum Mitnehmen – bei Bedarf für Ihren Augenarzt" }
+    ],
+    "hinweis": "Alle optometrischen Prüfungen dienen der frühzeitigen Aufdeckung von Auffälligkeiten und Risiken. Ein krankhafter Befund kann und darf zuverlässig nur von einem Augenarzt ausgeschlossen werden."
+  },
+  "visualtraining": {
+    "text": "[Was ist Visualtraining, für wen ist es gedacht (z. B. Kinder, Bildschirmarbeit, Sport) und wie läuft es ab? Gemeinsam mit Alexander formulieren.]",
+    "bereiche": ["[Anwendungsbereich 1]", "[Anwendungsbereich 2]", "[Anwendungsbereich 3]"]
+  },
+  "faq": [
+    { "frage": "Ersetzt das Screening den Besuch beim Augenarzt?", "antwort": "Nein. Die optometrischen Prüfungen dienen der frühzeitigen Aufdeckung von Auffälligkeiten und Risiken. Ein krankhafter Befund kann zuverlässig nur von einem Augenarzt ausgeschlossen werden. Unsere schriftliche Auswertung mit Bildern hilft aber, Sie bei Bedarf gezielt an den Facharzt zu verweisen." },
+    { "frage": "Bekomme ich beim Screening Augentropfen?", "antwort": "Nein. Augeninnendruck und Hornhautdicke messen wir berührungslos und ohne Tropfen." },
+    { "frage": "Wie lange dauert eine TearStim-Anwendung?", "antwort": "Die Anwendung selbst dauert etwa zehn bis fünfzehn Minuten." },
+    { "frage": "Wie viele TearStim-Anwendungen brauche ich?", "antwort": "In der Regel drei, in schweren Fällen vier bis fünf. Ob die Anwendung für Sie infrage kommt, besprechen wir nach einer Tränenfilmanalyse und einem individuellen Check-up." },
+    { "frage": "Wie bereite ich mich auf die Anwendung vor?", "antwort": "Reinigen Sie Ihr Gesicht mit Wasser und Seife. Es dürfen keine Reste von Make-up auf der Haut sein, auch Augen und Wimpern sollten ungeschminkt sein." },
+    { "frage": "Was kosten Screening und TearStim?", "antwort": "[Preise mit Alexander klären]" }
+  ]
+}

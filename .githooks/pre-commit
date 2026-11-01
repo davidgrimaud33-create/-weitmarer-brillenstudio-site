@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+# Garde-fou : bloque le commit si un fichier > 5 MB est staged dans public/.
+# Bypass : git commit --no-verify   OU   ALLOW_LARGE_MEDIA=1 git commit ...
+
+set -euo pipefail
+
+LIMIT_BYTES=$((5 * 1024 * 1024))
+LIMIT_MB=5
+
+if [ "${ALLOW_LARGE_MEDIA:-}" = "1" ]; then
+  echo "[guard] ALLOW_LARGE_MEDIA=1 — check bypass." >&2
+  exit 0
+fi
+
+# Fichiers ajoutés ou modifiés (pas les supprimés) sous public/.
+# while-read pour rester compatible bash 3.x (macOS stock — pas de mapfile).
+failed=0
+while IFS= read -r f; do
+  [ -z "$f" ] && continue
+  [ ! -f "$f" ] && continue
+  size=$(wc -c < "$f" | tr -d ' ')
+  if [ "$size" -gt "$LIMIT_BYTES" ]; then
+    if [ "$failed" -eq 0 ]; then
+      echo "" >&2
+      echo "🚫 pre-commit : fichier(s) > ${LIMIT_MB} MB dans public/" >&2
+      echo "" >&2
+    fi
+    mb=$(awk -v s="$size" 'BEGIN { printf "%.2f", s/1024/1024 }')
+    echo "    ${mb} MB  $f" >&2
+    failed=1
+  fi
+done <<EOF
+$(git diff --cached --name-only --diff-filter=AM | grep '^public/' || true)
+EOF
+
+if [ "$failed" -eq 1 ]; then
+  cat >&2 <<EOF
+
+📷  Images JPG/PNG : lance d'abord
+        node scripts/optimize-images.mjs --only="<chemin>,<chemin>…"
+    puis stage le .webp généré (le JPG original n'a pas besoin d'être commit).
+
+🎥  Vidéos : à privilégier un hébergement externe (Cloudinary, Bunny Stream).
+    Garder dans le repo gonfle l'historique git pour toujours.
+
+🔓  Bypass exceptionnel :
+        git commit --no-verify          (ignore tous les hooks)
+        ALLOW_LARGE_MEDIA=1 git commit  (ignore seulement ce check)
+
+EOF
+  exit 1
+fi

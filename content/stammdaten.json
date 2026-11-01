@@ -1,0 +1,16 @@
+{
+  "_hinweis": "Zentrale Firmendaten. Werden auf allen Seiten, im Footer, in Mails und für Google (strukturierte Daten) verwendet.",
+  "name": "Weitmarer Brillenstudio",
+  "inhaber": "Alexander Jäh e.K.",
+  "untertitel": "Sehzentrum für Augenoptik und Augenscreening",
+  "strasse": "Hattinger Straße 252",
+  "plz": "44795",
+  "ort": "Bochum",
+  "stadtteil": "Bochum-Weitmar",
+  "telefon": "0234 43 21 41",
+  "telefonLink": "+49234432141",
+  "email": "info@weitmarer-brillenstudio.de",
+  "parkhinweis": "[Parkhinweis prüfen – auf der Ladenfront steht ein Schild zu Parkplätzen an der Rückseite]",
+  "routeLink": "https://www.google.com/maps/dir/?api=1&destination=Hattinger+Stra%C3%9Fe+252,+44795+Bochum",
+  "gruendungsjahr": "[JAHR]"
+}

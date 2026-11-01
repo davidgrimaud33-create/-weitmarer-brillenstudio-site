@@ -1,0 +1,12 @@
+{
+  "_hinweis": "Reihenfolge = Anzeige-Reihenfolge. 'foto' leer lassen, wenn noch kein Bild da ist (dann erscheinen Initialen). Fotos liegen in public/images/team/.",
+  "team": [
+    { "name": "Alexander Jäh", "rolle": "Staatl. gepr. Augenoptiker, Augenoptikermeister und Funktionaloptometrist", "schwerpunkt": "Inhaber · [Schwerpunkt]", "foto": "/images/team/alexander-jaeh.jpg", "bildausschnitt": "45% 30%" },
+    { "name": "Claudia Jäh", "rolle": "Augenoptikerin", "schwerpunkt": "Inhaberin · [Schwerpunkt]", "foto": "/images/team/claudia-jaeh.jpg", "bildausschnitt": "55% 30%" },
+    { "name": "Diana Ettelt", "rolle": "Augenoptikermeisterin", "schwerpunkt": "[Schwerpunkt]", "foto": "/images/team/diana-ettelt.jpg", "bildausschnitt": "50% 30%" },
+    { "name": "Michaela Seehütter", "rolle": "Augenoptikerin", "schwerpunkt": "[Schwerpunkt]", "foto": "/images/team/michaela-seehuetter.jpg", "bildausschnitt": "50% 30%" },
+    { "name": "Stefan König", "rolle": "Augenoptiker", "schwerpunkt": "[Schwerpunkt]", "foto": "/images/team/stefan-koenig.jpg", "bildausschnitt": "50% 30%" },
+    { "name": "Arnd Krupop", "rolle": "Augenoptiker", "schwerpunkt": "[Schwerpunkt]", "foto": "/images/team/arnd-krupop.jpg", "bildausschnitt": "50% 30%" },
+    { "name": "Regine Koßmann", "rolle": "Augenoptikerin", "schwerpunkt": "[Schwerpunkt]", "foto": "", "bildausschnitt": "50% 30%" }
+  ]
+}

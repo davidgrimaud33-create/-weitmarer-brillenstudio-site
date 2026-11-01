@@ -1,0 +1,17 @@
+{
+  "_hinweis": "Zeiten im Format HH:MM. Tage: 0 = Sonntag, 1 = Montag … 6 = Samstag. Leere Liste = geschlossen. 'ausnahmen' überschreiben einzelne Tage (Feiertage, Urlaub, Sonderöffnungen) – vergangene Einträge werden automatisch ignoriert.",
+  "regulaer": {
+    "1": [["09:00", "13:00"], ["14:00", "18:00"]],
+    "2": [["09:00", "13:00"], ["14:00", "18:00"]],
+    "3": [["09:00", "13:00"], ["14:00", "18:00"]],
+    "4": [["09:00", "13:00"], ["14:00", "18:00"]],
+    "5": [["09:00", "13:00"], ["14:00", "18:00"]],
+    "6": [["09:00", "13:00"]],
+    "0": []
+  },
+  "ausnahmen": [
+    { "datum": "2026-12-24", "zeiten": [], "grund": "[Beispiel – Heiligabend, mit Alexander klären]" },
+    { "datum": "2026-12-25", "zeiten": [], "grund": "1. Weihnachtstag" },
+    { "datum": "2026-12-26", "zeiten": [], "grund": "2. Weihnachtstag" }
+  ]
+}

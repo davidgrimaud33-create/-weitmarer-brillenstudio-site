@@ -1,0 +1,12 @@
+{
+  "_hinweis": "Aktionen erscheinen nur zwischen 'start' und 'ende' (jeweils einschließlich). Danach verschwinden sie automatisch – beim nächsten Build oder spätestens nach dem täglichen Neu-Build. Format: JJJJ-MM-TT.",
+  "aktionen": [
+    {
+      "titel": "[Titel der Aktion]",
+      "text": "[Preis und Bedingungen]",
+      "start": "2026-11-01",
+      "ende": "2026-12-31",
+      "aufStartseite": true
+    }
+  ]
+}

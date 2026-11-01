@@ -1,0 +1,31 @@
+{
+  "_hinweis": "Texte und Hero-Bild der Startseite. heroBild: einer der Pfade aus public/images/.",
+  "hero": {
+    "eyebrow": "Meisterbetrieb & Sehzentrum in Bochum-Weitmar",
+    "titelZeile1": "Sehen Sie",
+    "titelZeile2": "wieder",
+    "titelAkzent": "scharf.",
+    "text": "Brillen, Kontaktlinsen und Augengesundheit – mit Laser-Scan der Netzhaut und der Beratung von Augenoptikermeister und Funktionaloptometrist Alexander Jäh.",
+    "bild": "/images/laden/fassungswand.jpg",
+    "bildAlt": "Bunte Fassungswand im Weitmarer Brillenstudio",
+    "bildAusschnitt": "50% 50%"
+  },
+  "anliegen": [
+    { "id": "brille", "label": "Neue Brille", "titel": "Ihre neue Brille", "text": "Sehstärke beim Kauf kostenlos bestimmt – und Zeit für Fassung und Gläser.", "cta": "Beratung anfragen", "bild": "/images/laden/fassungswand.jpg" },
+    { "id": "gleitsicht", "label": "Gleitsicht", "titel": "Gleitsicht, die passt", "text": "Individuell berechnete Gläser mit 6 Monaten Verträglichkeitsgarantie.", "cta": "Termin anfragen", "bild": "/images/laden/beratung.jpg" },
+    { "id": "linsen", "label": "Kontaktlinsen", "titel": "Kontaktlinsen testen", "text": "Auch für empfindliche und trockene Augen – in Ruhe bei uns ausprobieren.", "cta": "Anpassung anfragen", "bild": "/images/laden/laden-innen.jpg" },
+    { "id": "screening", "label": "Augen checken", "titel": "Augenscreening", "text": "Augeninnendruck, Netzhaut-Laser-Scan und Auswertung mit Bildern.", "cta": "Screening anfragen", "bild": "/images/leistungen/screening-geraet.jpg" },
+    { "id": "trocken", "label": "Trockene Augen", "titel": "Hilfe bei trockenen Augen", "text": "TearStim-Lichtstimulation stabilisiert den Tränenfilm.", "cta": "Termin anfragen", "bild": "/images/leistungen/tearstim.jpg" },
+    { "id": "service", "label": "Reparatur & Service", "titel": "Service für Ihre Brille", "text": "Reinigung, Funktionskontrolle und Passform – jederzeit.", "cta": "Vorbeikommen", "bild": "/images/laden/laden-aussen.jpg" }
+  ],
+  "zitat": {
+    "text": "[Persönliches Zitat von Alexander Jäh – z. B. warum ihm Augengesundheit über den Brillenkauf hinaus wichtig ist.]",
+    "name": "Alexander Jäh",
+    "rolle": "Augenoptikermeister und Funktionaloptometrist, Inhaber"
+  },
+  "bewertungen": [
+    { "text": "[Echte Google-Bewertung 1 – wird später automatisch eingebunden]", "name": "[Name, Datum]" },
+    { "text": "[Echte Google-Bewertung 2]", "name": "[Name, Datum]" },
+    { "text": "[Echte Google-Bewertung 3]", "name": "[Name, Datum]" }
+  ]
+}
