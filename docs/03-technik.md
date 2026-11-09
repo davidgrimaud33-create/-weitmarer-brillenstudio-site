@@ -70,7 +70,7 @@ npm run typecheck:worker
 
 Ein Worker-Projekt `weitmarer-brillenstudio-site`, per Workers Builds mit GitHub verbunden (Build-Befehl `npm run build`;
 Produktions-Branch `main` → Deploy-Befehl `npx wrangler deploy`; Nicht-Produktions-Branches wie `staging` →
-`npx wrangler versions upload` (erzeugt eine Vorschau-Version mit eigener URL, `preview_urls: true`, ohne die Live-Seite zu ändern).
+eine **Worker Preview** `staging` (Workers & Pages → Worker → Settings → Builds, Tracking branch `staging`, Preview command `npx wrangler preview`). Sie hat die Adresse `staging-weitmarer-brillenstudio-site.david-grimaud33.workers.dev`, eigene Variablen (Block `previews` in `wrangler.jsonc`) und eigene Secrets (`npx wrangler preview secret put NAME --name staging`) und ändert die Live-Seite nie. Voraussetzung: wrangler ≥ 4.135 und lokal Node.js ≥ 22.12.
 Die Testversion wird erkannt über `WORKERS_CI_BRANCH` (≠ `main` → `NEXT_PUBLIC_IS_STAGING=true`, `noindex`).
 Geheimnisse im Cloudflare-Dashboard (bzw. `wrangler secret put`), nie in `wrangler.jsonc` oder im Repo.
 `wrangler deploy` (Workers Builds auf `main`) überschreibt einfache Dashboard-Variablen, die nicht in `wrangler.jsonc` stehen; deshalb sind alle Werte, die zur Laufzeit im Worker gebraucht werden und nicht in `wrangler.jsonc` stehen, **Worker-Secrets** (verschlüsselt, bleiben bei Deploys erhalten). Build-Werte sind **Build-Variablen** von Workers Builds.

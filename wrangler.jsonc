@@ -4,7 +4,7 @@
   // gehören NICHT hierher, sondern ins Cloudflare-Dashboard bzw. `wrangler secret put`.
   "name": "weitmarer-brillenstudio-site",
   "main": "worker/index.ts",
-  "compatibility_date": "2026-05-03",
+  "compatibility_date": "2026-11-01",
   "assets": {
     "directory": "./out",
     "binding": "ASSETS",
@@ -14,5 +14,12 @@
   "preview_urls": true,
   "vars": {
     "TERMIN_FROM_EMAIL": "Weitmarer Brillenstudio <termin@weitmarer-brillenstudio.de>"
+  },
+  // Testversion (Worker Preview "staging", Branch staging): erbt nichts von der Produktion.
+  // Secrets der Testversion: `npx wrangler preview secret put NAME --name staging`.
+  "previews": {
+    "vars": {
+      "TERMIN_FROM_EMAIL": "Weitmarer Brillenstudio <termin@weitmarer-brillenstudio.de>"
+    }
   }
 }

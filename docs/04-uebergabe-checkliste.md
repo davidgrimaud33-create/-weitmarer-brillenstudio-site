@@ -20,7 +20,7 @@ Ziel: Testversion läuft, geschützt, Terminformular getestet. Live-Domain und E
 
 - [ ] **A1. Worker-Projekt anlegen** (D). Cloudflare-Dashboard → Workers & Pages → Create → mit GitHub verbinden, Repo `weitmarer-brillenstudio-site`.
   Projektname `weitmarer-brillenstudio-site` (muss zu `name` in `wrangler.jsonc` passen). Build-Befehl `npm run build`.
-  Produktions-Branch `main` → Deploy-Befehl `npx wrangler deploy`; Nicht-Produktions-Branches → `npx wrangler versions upload`.
+  Produktions-Branch `main` → Deploy-Befehl `npx wrangler deploy`; Testversion als **Worker Preview** `staging` (Settings → Builds → Preview anlegen, Tracking branch `staging`, Build command `npm run build`, Preview command `npx wrangler preview`). Secrets der Testversion getrennt setzen: `npx wrangler preview secret put NAME --name staging`.
   *Prüfen:* In den Einstellungen des Projekts stehen beide Befehle genau so; „Branch-Builds“ ist aktiv.
 - [ ] **A2. Spamschutz und Mailversand vorbereiten** (D). Turnstile-Widget anlegen (Site-Key + Secret), Resend-Konto mit API-Key.
   Turnstile-Hostnamen: die `workers.dev`-Adresse; später kommen `www` und Apex dazu (Teil G).
