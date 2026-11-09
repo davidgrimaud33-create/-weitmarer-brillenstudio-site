@@ -58,8 +58,7 @@ const jsonLd = {
   openingHours: Object.entries(oeffnungszeiten.regulaer).flatMap(([tag, f]) => f.map(([a, b]) => `${TAG_CODES[Number(tag)]} ${a}-${b}`)),
 }
 
-const UMAMI_ID = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID
-const UMAMI_SRC = process.env.NEXT_PUBLIC_UMAMI_SRC
+const CF_BEACON_TOKEN = process.env.NEXT_PUBLIC_CF_BEACON_TOKEN
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -71,8 +70,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Fusszeile />
         <MobilLeiste />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-        {!isStaging && UMAMI_ID && UMAMI_SRC && (
-          <Script src={UMAMI_SRC} data-website-id={UMAMI_ID} strategy="afterInteractive" />
+        {!isStaging && CF_BEACON_TOKEN && (
+          <Script
+            src="https://static.cloudflareinsights.com/beacon.min.js"
+            data-cf-beacon={JSON.stringify({ token: CF_BEACON_TOKEN })}
+            strategy="afterInteractive"
+            defer
+          />
         )}
       </body>
     </html>
