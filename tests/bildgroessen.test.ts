@@ -1,4 +1,4 @@
-import { mkdtempSync, mkdirSync, readdirSync, rmSync } from 'node:fs'
+import { mkdtempSync, mkdirSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import sharp from 'sharp'
@@ -58,5 +58,15 @@ describe('erzeugeGroessen', () => {
     await sharp({ create: { width: 500, height: 300, channels: 3, background: '#0f0' } }).png().toFile(eingabe)
     const r = await erzeugeGroessen(eingabe, aus)
     expect(Object.keys(r).map(Number)).toEqual([500])
+  })
+
+  it('meldet eine kaputte Bilddatei mit Dateiname und Hilfe', async () => {
+    const eingabe = join(tmp, 'kaputt.jpg')
+    writeFileSync(eingabe, 'das ist kein Foto')
+    const aus = join(tmp, 'aus3')
+    mkdirSync(aus)
+    await expect(erzeugeGroessen(eingabe, aus)).rejects.toThrow(
+      /kaputt\.jpg: Diese Datei ist kein lesbares JPG\/PNG-Foto\. Bitte als JPG neu exportieren\. \(.+\)/,
+    )
   })
 })

@@ -80,6 +80,23 @@ describe('pruefeSeite', () => {
     expect(() => pruefeSeite(seite([{ typ: 'buehne', titel: 't', bild: 'foto.jpg' }]), DATEI)).toThrow(/bild.*\/images\//)
   })
 
+  it('lehnt ein Foto ab, das es unter public/ nicht gibt', () => {
+    const b = { ...BEISPIELE['text-bild'], bild: '/images/sport/fehlt.jpg' }
+    expect(() => pruefeSeite(seite([BEISPIELE.text, b]), DATEI)).toThrow(
+      `${DATEI}: Baustein 2 (text-bild): Das Foto "/images/sport/fehlt.jpg" (Feld "bild") gibt es nicht. Bitte zuerst nach public/images/... legen.`,
+    )
+  })
+
+  it('lehnt eine Bild-Endung ab, die der Build nicht kann (z. B. HEIC)', () => {
+    const b = { ...BEISPIELE['text-bild'], bild: '/images/laden/foto.heic' }
+    expect(() => pruefeSeite(seite([b]), DATEI)).toThrow(/Baustein 1 \(text-bild\).*"bild".*\.jpg, \.jpeg, \.png oder \.webp/)
+  })
+
+  it('nennt bei Galerie-Bildern den Feldpfad', () => {
+    const bilder = [{ src: '/images/laden/laden-innen.jpg', alt: 'a' }, { src: '/images/x/weg.jpg', alt: 'b' }]
+    expect(() => pruefeSeite(seite([{ typ: 'galerie', bilder }]), DATEI)).toThrow(/Feld "bilder\[2\]\.src"/)
+  })
+
   it('nennt die Datei bei fehlendem Seitenfeld und bei Nicht-Objekt', () => {
     expect(() => pruefeSeite(seite([BEISPIELE.text], { titel: undefined }), DATEI)).toThrow(`${DATEI}: Das Feld "titel" fehlt.`)
     expect(() => pruefeSeite([], DATEI)).toThrow(DATEI)

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { BEISPIELE } from '@/lib/bausteine/beispiele'
+import { BEISPIELE, BEISPIEL_BILD } from '@/lib/bausteine/beispiele'
 import { MUSTERBUCH } from '@/lib/bausteine/musterbuch'
 import type { Baustein } from '@/lib/bausteine/typen'
 import { BausteinAnzeige } from '@/components/bausteine/BausteinListe'
@@ -10,12 +10,12 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 }
 
-// Die Beispiele nennen den Platzhalter /images/beispiel.jpg. Damit im Musterbuch echte Fotos
-// zu sehen sind, wird er hier der Reihe nach durch vorhandene Ladenfotos ersetzt.
+// Die Beispiele nennen überall dasselbe Foto (BEISPIEL_BILD). Damit im Musterbuch echte Fotos
+// zu sehen sind, wird es hier der Reihe nach durch vorhandene Ladenfotos ersetzt.
 const FOTOS = ['/images/laden/laden-innen.jpg', '/images/laden/fassungswand.jpg', '/images/laden/lounge.jpg', '/images/laden/beratung.jpg']
 function mitFotos(b: Baustein): Baustein {
   let n = 0
-  return JSON.parse(JSON.stringify(b), (_, wert) => (wert === '/images/beispiel.jpg' ? FOTOS[n++ % FOTOS.length] : wert))
+  return JSON.parse(JSON.stringify(b), (_, wert) => (wert === BEISPIEL_BILD ? FOTOS[n++ % FOTOS.length] : wert))
 }
 
 export default function Musterbuch() {

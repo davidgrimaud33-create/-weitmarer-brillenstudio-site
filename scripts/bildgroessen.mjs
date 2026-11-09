@@ -30,7 +30,14 @@ const MANIFEST = join(WURZEL, 'lib', 'bild-manifest.json')
 export async function erzeugeGroessen(eingabeDatei, ausgabeOrdner, basis = basename(eingabeDatei, extname(eingabeDatei))) {
   const inhalt = readFileSync(eingabeDatei)
   const hash = createHash('sha256').update(inhalt).digest('hex').slice(0, 8)
-  const { width: original } = await sharp(inhalt).metadata()
+  let original
+  try {
+    ;({ width: original } = await sharp(inhalt).metadata())
+    if (!original) throw new Error('keine Bildbreite gefunden')
+  } catch (fehler) {
+    const rel = relative(WURZEL, eingabeDatei).split('\\').join('/')
+    throw new Error(`${rel}: Diese Datei ist kein lesbares JPG/PNG-Foto. Bitte als JPG neu exportieren. (${fehler.message})`)
+  }
   const breiten = [...new Set(BREITEN.map((b) => Math.min(b, original)))]
   /** @type {Record<number, string>} */
   const ergebnis = {}

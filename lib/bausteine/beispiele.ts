@@ -1,12 +1,15 @@
 import type { Baustein } from './typen'
 
+/** Platzhalter-Foto der Beispiele: ein vorhandenes Ladenfoto (die Prüfung verlangt, dass die Datei existiert). */
+export const BEISPIEL_BILD = '/images/laden/laden-innen.jpg'
+
 /** Je ein gültiges Beispiel pro Baustein (Musterbuch und Tests). Neutrale Texte, keine Preise. */
 export const BEISPIELE: Record<Baustein['typ'], Baustein> = {
   buehne: {
     typ: 'buehne',
     titel: 'Überschrift der Seite',
     unterzeile: 'Eine kurze Zeile darunter.',
-    bild: '/images/beispiel.jpg',
+    bild: BEISPIEL_BILD,
     knopf: { text: 'Termin vereinbaren', link: '/termin' },
   },
   text: { typ: 'text', titel: 'Überschrift', text: 'Erster Absatz.\n\nZweiter Absatz.' },
@@ -14,7 +17,7 @@ export const BEISPIELE: Record<Baustein['typ'], Baustein> = {
     typ: 'text-bild',
     titel: 'Überschrift',
     text: 'Ein Text neben einem Bild.',
-    bild: '/images/beispiel.jpg',
+    bild: BEISPIEL_BILD,
     bildAlt: 'Beschreibung des Bildes',
     bildSeite: 'rechts',
   },
@@ -22,7 +25,7 @@ export const BEISPIELE: Record<Baustein['typ'], Baustein> = {
     typ: 'karten',
     titel: 'Überschrift',
     karten: [
-      { titel: 'Erste Karte', text: 'Kurzer Text.', bild: '/images/beispiel.jpg', link: '/termin' },
+      { titel: 'Erste Karte', text: 'Kurzer Text.', bild: BEISPIEL_BILD, link: '/termin' },
       { titel: 'Zweite Karte', text: 'Kurzer Text.' },
     ],
   },
@@ -30,8 +33,8 @@ export const BEISPIELE: Record<Baustein['typ'], Baustein> = {
     typ: 'galerie',
     titel: 'Überschrift',
     bilder: [
-      { src: '/images/beispiel.jpg', alt: 'Erstes Bild' },
-      { src: '/images/beispiel.jpg', alt: 'Zweites Bild' },
+      { src: BEISPIEL_BILD, alt: 'Erstes Bild' },
+      { src: BEISPIEL_BILD, alt: 'Zweites Bild' },
     ],
   },
   zitat: { typ: 'zitat', text: 'Ein Satz, der hängen bleibt.', name: 'Name' },

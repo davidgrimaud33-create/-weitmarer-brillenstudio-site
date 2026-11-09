@@ -9,6 +9,11 @@ description: Tauscht ein Foto aus oder fügt ein neues Foto ein, zum Beispiel "E
 
 - Bilder liegen unter `public/images/<bereich>/` (z. B. `team`, `laden`, `holzkern`, `leistungen`, `besonderes`).
 - Dateiname klein, ohne Leerzeichen und Umlaute, z. B. `neue-fassungen-2027.jpg`.
+- **Nur JPG oder PNG** (Endung `.jpg`, klein geschrieben). iPhone-Fotos kommen oft als **HEIC** (auch
+  umbenannte `.heic`-Dateien): Der Build kann kein HEIC. Vor dem Ablegen in JPG umwandeln:
+  `sips -s format jpeg eingang.heic --out public/images/<bereich>/name.jpg` (macOS). Geht das nicht,
+  Alexander bitten, das Foto als JPG zu exportieren. Eine Datei, die nur umbenannt wurde, aber kein
+  echtes JPG ist, lässt den Build mit „kein lesbares JPG/PNG-Foto“ abbrechen.
 - **Höchstens 5 MB**. Größere Dateien blockiert der Commit-Schutz. Dann Alexander bitten, das Foto
   kleiner zu exportieren, oder es selbst verkleinern (z. B. mit `sips -Z 3000 datei.jpg`).
 - Im Inhalt immer den **`.jpg`-Pfad** eintragen, z. B. `/images/team/regine.jpg`.

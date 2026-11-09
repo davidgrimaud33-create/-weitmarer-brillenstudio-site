@@ -58,7 +58,7 @@ Regeln:
   Bei der **Bühne** ist das Bild freiwillig: noch kein Foto, dann `bild` einfach weglassen.
   Bei **Text mit Bild**, **Galerie** und **Karten** mit Bild muss ein Pfad stehen, der mit `/images/` beginnt.
   Liefert Alexander das Foto erst später, nimm vorläufig ein vorhandenes Foto aus `public/images/`
-  (Datei muss existieren) und schreibe `[FOTO FOLGT]` in `bildAlt`, damit die Stelle beim Suchen nach
+  (die Datei muss existieren: der Build prüft das und bricht sonst mit Dateiname und Feld ab) und schreibe `[FOTO FOLGT]` in `bildAlt`, damit die Stelle beim Suchen nach
   eckigen Klammern auffällt. Sag Alexander ausdrücklich, dass das Foto nur ein Platzhalter ist,
   und gib die Seite nicht live, bevor es ersetzt ist.
 - Adressen, die es schon gibt (z. B. `termin`, `sehhilfen`, alte Weiterleitungen), sind gesperrt.

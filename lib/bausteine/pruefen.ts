@@ -2,6 +2,8 @@
  * Prüft den Inhalt einer Seiten-Datei. Jeder Fehler ist ein deutscher Satz mit Dateiname,
  * Baustein-Nummer und Feldname, damit Alexander (oder Claude) ihn sofort findet.
  */
+import { existsSync, statSync } from 'node:fs'
+import { join, resolve, sep } from 'node:path'
 import type { Baustein, Knopf, Seite } from './typen'
 
 type Objekt = Record<string, unknown>
@@ -31,6 +33,15 @@ function bild(o: Objekt, feld: string, melde: Melde, pflicht: boolean, pfad = fe
   const w = text(o, feld, melde, pflicht, pfad)
   if (w !== undefined && !w.startsWith('/images/')) {
     melde(`Das Feld "${pfad}" muss mit /images/ beginnen (zum Beispiel /images/sportbrille.jpg).`)
+  }
+  if (w === undefined) return
+  if (!/\.(jpe?g|png|webp)$/i.test(w)) {
+    melde(`Das Feld "${pfad}" muss auf .jpg, .jpeg, .png oder .webp enden (gefunden: "${w}"). HEIC-Fotos bitte erst in JPG umwandeln.`)
+  }
+  const wurzel = resolve(process.cwd(), 'public')
+  const datei = resolve(join(wurzel, w))
+  if (!datei.startsWith(wurzel + sep) || !existsSync(datei) || !statSync(datei).isFile()) {
+    melde(`Das Foto "${w}" (Feld "${pfad}") gibt es nicht. Bitte zuerst nach public/images/... legen.`)
   }
 }
 
