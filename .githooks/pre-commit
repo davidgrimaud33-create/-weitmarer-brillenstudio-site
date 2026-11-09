@@ -36,11 +36,11 @@ EOF
 if [ "$failed" -eq 1 ]; then
   cat >&2 <<EOF
 
-📷  Images JPG/PNG : lance d'abord
-        node scripts/optimize-images.mjs --only="<chemin>,<chemin>…"
-    puis stage le .webp généré (le JPG original n'a pas besoin d'être commit).
+📷  Images JPG/PNG : les tailles web (WebP) sont générées automatiquement au build
+    (scripts/bildgroessen.mjs). Il suffit de réduire/exporter l'image à 5 MB maximum
+    avant le commit ; aucune étape d'optimisation manuelle n'est nécessaire.
 
-🎥  Vidéos : à privilégier un hébergement externe (Cloudinary, Bunny Stream).
+🎥  Vidéos : à privilégier un hébergement externe (David fragen).
     Garder dans le repo gonfle l'historique git pour toujours.
 
 🔓  Bypass exceptionnel :

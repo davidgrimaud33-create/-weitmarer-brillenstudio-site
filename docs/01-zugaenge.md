@@ -3,45 +3,42 @@
 > Übersicht aller Dienste rund um **weitmarer-brillenstudio.de** – wofür sie da sind und wer sie verwaltet.
 > Keine Passwörter oder Schlüssel in dieses Dokument schreiben.
 >
-> Stand: 1. November 2026 · Ansprechpartner: David Grimaud (DeepMetis) – david.grimaud@deepmetis.com
+> Stand: 9. November 2026 · Ansprechpartner: David Grimaud (DeepMetis) – david.grimaud@deepmetis.com
 
-| Dienst | Wofür | Status |
-|---|---|---|
-| GitHub `davidgrimaud33-create/weitmarer-brillenstudio-site` | Code und Inhalte, Branches `main` (live) und `staging` (Test) | angelegt |
-| Netlify – Site „Production“ | baut `main`, Domain weitmarer-brillenstudio.de | anzulegen |
-| Netlify – Site „Staging“ | baut `staging`, z. B. `wbs-staging.netlify.app` | anzulegen |
-| Bunny.net | Bilder-CDN (Pull Zone) und Videos (Stream) | anzulegen |
-| Resend | Mails der Terminanfrage | anzulegen, Domain verifizieren |
-| Hetzner (eigener Server) | Umami-Statistik, n8n-Automatisierungen, ggf. Cal.com | anzulegen |
-| Domain / DNS | derzeit bei Alfahosting (laut alter Datenschutzerklärung) | Umzug planen |
+| Dienst | Wofür | Inhaber / Rolle | Status |
+|---|---|---|---|
+| GitHub (Repo `weitmarer-brillenstudio-site`) | Code und Inhalte, Branches `main` (live) und `staging` (Test), Versionsgeschichte | Alexander (Eigentümer), David Admin | Repo liegt noch bei David, Übertragung geplant |
+| Cloudflare | Hosting (Worker mit statischen Dateien), Testversion pro Branch, DNS, Terminformular-Funktion, Turnstile (Spamschutz), Web Analytics, Access (Login für die Testversion) | Alexander Super-Administrator, David Administrator | anzulegen |
+| Resend | Versand der Termin-Mails (Laden + Bestätigung an Kunden) | Alexander, David Zugriff | anzulegen, Domain verifizieren |
+| Alfahosting | Registrar der Domain (`.de`) und vermutlich das Postfach `info@weitmarer-brillenstudio.de` | Alexander | bleibt, Vertrag nicht kündigen |
 
-## Netlify
+Entfallen sind: Netlify, Bunny.net, Umami, Hetzner, Cal.com. Phase 2 (n8n) ist noch nicht entschieden.
 
-Zwei Sites aus **einem** Repo (wie bei MB Barbier):
+## Cloudflare: eine Site, zwei Versionen
 
-| | Production | Staging |
+Ein Worker-Projekt, verbunden mit dem GitHub-Repo:
+
+| | Live-Seite | Testversion |
 |---|---|---|
 | Branch | `main` | `staging` |
-| `NEXT_PUBLIC_IS_STAGING` | – | `true` (keine Google-Indexierung, kein sichtbarer Hinweis) |
-| `SITE_URL` | `https://www.weitmarer-brillenstudio.de` | Staging-URL |
-| `RESEND_API_KEY` | ja | ja |
-| `TERMIN_TO_EMAIL` | Postfach des Ladens | Test-Postfach (David) |
-| `TERMIN_FROM_EMAIL` | `Weitmarer Brillenstudio <termin@weitmarer-brillenstudio.de>` | gleich |
-| `IMAGE_CDN_URL` | Bunny-Pull-Zone (optional) | – |
-| `NEXT_PUBLIC_UMAMI_SRC` / `NEXT_PUBLIC_UMAMI_WEBSITE_ID` | nach Hetzner-Setup | – |
+| Adresse | `[LIVE-URL]` (`www.weitmarer-brillenstudio.de`) | `[STAGING-URL]` (Vorschau-Adresse), mit Cloudflare Access geschützt (E-Mail-Code für Alexander und David) |
+| Google | wird indexiert | `noindex` |
+| Terminmails an | Postfach des Ladens | Test-Postfach (`TERMIN_TO_EMAIL_TEST`) |
 
-Variablen immer im Netlify-UI pro Site setzen, nicht in `netlify.toml`.
-Nach Änderung: „Clear cache and deploy site“.
+Welche Variablen wo gesetzt werden: `docs/03-technik.md`, Abschnitt „Betrieb / Einrichtung Cloudflare“.
+Variablen und Geheimnisse immer im Cloudflare-Dashboard setzen (oder `wrangler secret put`), nie ins Repo.
 
 ## Domain-Umzug – Achtung E-Mail
 
-`info@weitmarer-brillenstudio.de` läuft vermutlich über Alfahosting. Beim Umstellen der DNS-Einträge
-auf Netlify die **MX-Einträge (Mailempfang) unverändert übernehmen**, sonst kommt keine Mail mehr an.
-Vorher mit Alexander klären, wo das Postfach liegt.
+Alfahosting bleibt Registrar; es werden nur die **Nameserver** auf Cloudflare gestellt (Cloudflare kann `.de` nicht registrieren).
+Vorher klären, wo das Postfach `info@…` liegt und ob der Nameserver-Wechsel im Vertrag erlaubt ist.
+**Alle bestehenden DNS-Einträge, besonders MX, SPF und DKIM, vorher sichern und in Cloudflare 1:1 anlegen**,
+sonst kommt keine Mail mehr an. Die Resend-Domain-Verifizierung (SPF/DKIM) wird ebenfalls im Cloudflare-DNS eingetragen.
+Die Hauptadresse ist `www`; die Adresse ohne `www` leitet dorthin um.
 
-## Hetzner (geplant)
+## Übergabe-Reihenfolge
 
-Eigener Server, getrennt von MB Barbier. Vorgesehen nach dem Muster des MB-Servers:
-Ubuntu 24.04, Caddy als Reverse Proxy, Docker, automatische Sicherheitsupdates, monatlicher Neustart.
-Dienste: Umami (Statistik ohne Cookies), n8n (z. B. Google-Bewertungen einbinden, tägliche Statistik-Mail,
-Terminanfragen weiterleiten). Cal.com nur, falls Online-Terminbuchung mit echten Zeitslots gewünscht ist.
+1. GitHub-Repo auf Alexanders Konto übertragen (David Admin), danach Cloudflare ↔ GitHub neu verbinden, SSH-Remote auf Davids Rechner anpassen.
+2. Cloudflare-Konto auf Alexander, David als Administrator einladen.
+3. Datenschutzerklärung freigeben (David), erst danach Nameserver-Umzug und Live-Gang unter der echten Domain.
+4. Alte Netlify-Sites erst löschen, wenn die Cloudflare-Testversion läuft.

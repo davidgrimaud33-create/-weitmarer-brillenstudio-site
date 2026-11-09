@@ -51,3 +51,6 @@ public/video/*.webm
 # erzeugte Bildgrößen (scripts/bildgroessen.mjs)
 public/_img/
 lib/bild-manifest.json
+
+# lokaler Cloudflare-Zwischenspeicher (wrangler)
+.wrangler/

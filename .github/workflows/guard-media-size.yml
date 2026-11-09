@@ -14,7 +14,7 @@ env:
 
 jobs:
   guard:
-    # Skip bot commits (optimize-images, etc.) et commits avec [skip guard].
+    # Skip bot commits et commits avec [skip guard].
     if: |
       github.actor != 'github-actions[bot]' &&
       !contains(github.event.head_commit.message, '[skip guard]')
@@ -65,13 +65,11 @@ jobs:
             echo "🚫 Au moins un fichier média dépasse ${LIMIT_LABEL} dans ce push."
             echo ""
             echo "📷 Pour les images JPG/PNG :"
-            echo "   - Lancer localement: node scripts/optimize-images.mjs --only=<chemin>"
-            echo "   - Commit le .webp généré, retirer l'original du HEAD"
-            echo "   - L'Action optimize-images.yml fait normalement ça automatiquement —"
-            echo "     vérifier qu'elle a bien tourné sur les commits précédents."
+            echo "   - Les tailles web (WebP) sont générées automatiquement au build."
+            echo "   - Il suffit de réduire l'image à ${LIMIT_LABEL} maximum, puis de recommiter."
             echo ""
             echo "🎥 Pour les vidéos :"
-            echo "   - Préférer un hébergement externe (Cloudinary, Bunny Stream)."
+            echo "   - Préférer un hébergement externe (David fragen)."
             echo "   - Garder une vidéo en git gonfle l'historique pour toujours."
             echo ""
             echo "🔓 Bypass pour ce commit (à utiliser avec parcimonie) :"
