@@ -9,16 +9,39 @@ import type { Seite } from './bausteine/typen'
 
 export type { Baustein, Knopf, Seite } from './bausteine/typen'
 
-function appOrdner(): string[] {
-  const dir = join(process.cwd(), 'app')
-  if (!existsSync(dir)) return []
+function unterordner(dir: string, fehler: string, filter: (name: string) => boolean = () => true): string[] {
+  if (!existsSync(dir)) throw new Error(fehler)
   return readdirSync(dir, { withFileTypes: true })
-    .filter((e) => e.isDirectory() && !/^[[(_.]/.test(e.name))
+    .filter((e) => e.isDirectory() && filter(e.name))
     .map((e) => e.name)
 }
 
-/** Adressen, die schon vergeben sind: alle Ordner unter app/ plus technische Pfade. */
-export const RESERVIERTE_ADRESSEN: string[] = [...appOrdner(), 'musterbuch', 'api', '_img', 'images']
+/**
+ * Alle Adressen, die schon belegt sind: Ordner unter app/, Weiterleitungen der alten Website
+ * (public/_redirects), Ordner unter public/ plus technische Pfade. Wirft, wenn app/ oder
+ * public/_redirects fehlen (falsches Arbeitsverzeichnis) – sonst wäre der Schutz stillschweigend aus.
+ */
+export function berechneReservierteAdressen(wurzel: string): string[] {
+  const app = unterordner(
+    join(wurzel, 'app'),
+    `Der Ordner "app" wurde unter ${wurzel} nicht gefunden. Bitte den Build im Projektordner starten.`,
+    (n) => !/^[[(_.]/.test(n),
+  )
+  const redirects = join(wurzel, 'public', '_redirects')
+  if (!existsSync(redirects)) {
+    throw new Error(`Die Datei "public/_redirects" wurde unter ${wurzel} nicht gefunden. Bitte den Build im Projektordner starten.`)
+  }
+  const umgeleitet = readFileSync(redirects, 'utf8')
+    .split('\n')
+    .map((z) => z.trim())
+    .filter((z) => z !== '' && !z.startsWith('#'))
+    .map((z) => z.split(/\s+/)[0].split('/')[1])
+    .filter((seg): seg is string => !!seg && !seg.startsWith(':') && !seg.includes('*'))
+  const oeffentlich = unterordner(join(wurzel, 'public'), `Der Ordner "public" wurde unter ${wurzel} nicht gefunden.`)
+  return [...new Set([...app, ...umgeleitet, ...oeffentlich, 'musterbuch', 'api', '_img', 'images'])]
+}
+
+export const RESERVIERTE_ADRESSEN: string[] = berechneReservierteAdressen(process.cwd())
 
 export function ladeSeiten(ordner = 'content/seiten'): Seite[] {
   const verzeichnis = resolve(process.cwd(), ordner)
@@ -36,7 +59,7 @@ export function ladeSeiten(ordner = 'content/seiten'): Seite[] {
       }
       if (RESERVIERTE_ADRESSEN.includes(adresse)) {
         throw new Error(
-          `${datei}: Die Adresse "/${adresse}" gibt es bereits. Bitte die Datei umbenennen, damit keine bestehende Seite überschrieben wird.`,
+          `${datei}: Die Adresse "/${adresse}" gibt es bereits (als Seite, Ordner oder Weiterleitung der alten Website). Bitte die Datei umbenennen, damit nichts überschrieben wird.`,
         )
       }
       let daten: unknown

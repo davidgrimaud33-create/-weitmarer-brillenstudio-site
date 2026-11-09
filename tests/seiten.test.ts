@@ -4,7 +4,7 @@ import { join } from 'node:path'
 import { afterEach, describe, expect, it } from 'vitest'
 import { BEISPIELE } from '@/lib/bausteine/beispiele'
 import { pruefeSeite } from '@/lib/bausteine/pruefen'
-import { ladeSeiten, RESERVIERTE_ADRESSEN } from '@/lib/seiten'
+import { berechneReservierteAdressen, ladeSeiten, RESERVIERTE_ADRESSEN } from '@/lib/seiten'
 import type { Baustein } from '@/lib/bausteine/typen'
 
 const DATEI = 'content/seiten/sportbrillen.json'
@@ -120,5 +120,34 @@ describe('ladeSeiten', () => {
   it('nennt bei fehlendem Pflichtfeld Datei und Feld', () => {
     const dir = tempOrdner({ 'neu.json': JSON.stringify({ ...seite([BEISPIELE.text]), beschreibung: undefined }) })
     expect(() => ladeSeiten(dir)).toThrow(/neu\.json[\s\S]*beschreibung/)
+  })
+})
+
+describe('reservierte Adressen', () => {
+  const gueltig = JSON.stringify(seite([BEISPIELE.text]))
+
+  it('enthält Weiterleitungsquellen und public-Ordner, aber keine Platzhalter', () => {
+    for (const a of ['kontakt', 'angebote', 'relax24', 'augenvorsorge', 'leistungen', 'produkte', 'datenschutzerklaerung', 'logo']) {
+      expect(RESERVIERTE_ADRESSEN).toContain(a)
+    }
+    expect(RESERVIERTE_ADRESSEN.some((a) => a.startsWith(':') || a.includes('*'))).toBe(false)
+  })
+
+  it('lehnt kontakt.json und logo.json ab', () => {
+    for (const name of ['kontakt', 'logo']) {
+      const dir = tempOrdner({ [`${name}.json`]: gueltig })
+      expect(() => ladeSeiten(dir)).toThrow(/bereits/)
+    }
+  })
+
+  it('wirft verständlich, wenn app/ oder public/_redirects fehlen', () => {
+    const leer = mkdtempSync(join(tmpdir(), 'wurzel-'))
+    ordner.push(leer)
+    expect(() => berechneReservierteAdressen(leer)).toThrow(/"app".*nicht gefunden/)
+    mkdirSync(join(leer, 'app'))
+    expect(() => berechneReservierteAdressen(leer)).toThrow(/_redirects/)
+    mkdirSync(join(leer, 'public'))
+    writeFileSync(join(leer, 'public', '_redirects'), '# x\n/alt/* /neu 301\n')
+    expect(berechneReservierteAdressen(leer)).toEqual(['alt', 'musterbuch', 'api', '_img', 'images'])
   })
 })
