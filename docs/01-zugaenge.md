@@ -38,7 +38,10 @@ Die Hauptadresse ist `www`; die Adresse ohne `www` leitet dorthin um.
 
 ## Übergabe-Reihenfolge
 
-1. GitHub-Repo auf Alexanders Konto übertragen (David Admin), danach Cloudflare ↔ GitHub neu verbinden, SSH-Remote auf Davids Rechner anpassen.
-2. Cloudflare-Konto auf Alexander, David als Administrator einladen.
-3. Datenschutzerklärung freigeben (David), erst danach Nameserver-Umzug und Live-Gang unter der echten Domain.
-4. Alte Netlify-Sites erst löschen, wenn die Cloudflare-Testversion läuft.
+Die ausführliche, abhakbare Reihenfolge mit Haltepunkten steht in `docs/04-uebergabe-checkliste.md`. Kurz:
+
+1. Cloudflare erst unter Davids Konto einrichten und die Testversion prüfen.
+2. Datenschutzerklärung freigeben (David), Einwilligung für Gesundheitsdaten entscheiden.
+3. Bei Alfahosting alle DNS-Einträge sichern, dann Cloudflare-Konto auf Alexander, GitHub-Repo übertragen, Worker neu verbinden.
+4. Nameserver-Umzug (Mail testen), Domains am Worker, Apex → www, erst danach Live-Gang unter der echten Domain.
+5. Alte Netlify-Sites erst löschen, wenn die Live-Seite auf Cloudflare läuft.
