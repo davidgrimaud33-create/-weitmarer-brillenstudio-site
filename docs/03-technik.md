@@ -68,7 +68,7 @@ npm run typecheck:worker
 
 ## Betrieb / Einrichtung Cloudflare
 
-Ein Worker-Projekt `weitmarer-brillenstudio`, per Workers Builds mit GitHub verbunden (Build-Befehl `npm run build`;
+Ein Worker-Projekt `weitmarer-brillenstudio-site`, per Workers Builds mit GitHub verbunden (Build-Befehl `npm run build`;
 Produktions-Branch `main` → Deploy-Befehl `npx wrangler deploy`; Nicht-Produktions-Branches wie `staging` →
 `npx wrangler versions upload` (erzeugt eine Vorschau-Version mit eigener URL, `preview_urls: true`, ohne die Live-Seite zu ändern).
 Die Testversion wird erkannt über `WORKERS_CI_BRANCH` (≠ `main` → `NEXT_PUBLIC_IS_STAGING=true`, `noindex`).

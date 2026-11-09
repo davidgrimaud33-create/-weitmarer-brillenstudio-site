@@ -19,7 +19,7 @@ Wer: **D** = David, **A** = Alexander, **D+A** = beide.
 Ziel: Testversion läuft, geschützt, Terminformular getestet. Live-Domain und E-Mail werden hier noch **nicht** berührt.
 
 - [ ] **A1. Worker-Projekt anlegen** (D). Cloudflare-Dashboard → Workers & Pages → Create → mit GitHub verbinden, Repo `weitmarer-brillenstudio-site`.
-  Projektname `weitmarer-brillenstudio` (muss zu `name` in `wrangler.jsonc` passen). Build-Befehl `npm run build`.
+  Projektname `weitmarer-brillenstudio-site` (muss zu `name` in `wrangler.jsonc` passen). Build-Befehl `npm run build`.
   Produktions-Branch `main` → Deploy-Befehl `npx wrangler deploy`; Nicht-Produktions-Branches → `npx wrangler versions upload`.
   *Prüfen:* In den Einstellungen des Projekts stehen beide Befehle genau so; „Branch-Builds“ ist aktiv.
 - [ ] **A2. Spamschutz und Mailversand vorbereiten** (D). Turnstile-Widget anlegen (Site-Key + Secret), Resend-Konto mit API-Key.
@@ -31,7 +31,7 @@ Ziel: Testversion läuft, geschützt, Terminformular getestet. Live-Domain und E
   - **Build-Variablen** (Workers Builds, werden beim Bauen eingebacken): `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `NEXT_PUBLIC_CF_BEACON_TOKEN`, `SITE_URL` (`https://www.weitmarer-brillenstudio.de`)
   - **`LIVE_HOST` noch nicht setzen.** Erst unmittelbar **vor** dem Anhängen der Domains (Schritt G0). Solange er fehlt, gilt jede Adresse als Testversion, und Terminmails gehen nie an den Laden.
   *Prüfen:* Alle Einträge sichtbar (Werte verdeckt), die vier Worker-Werte unter „Geheimnisse“. Kein Wert steht im Repo (`git grep -n "re_"` findet nichts).
-- [ ] **A4. Cloudflare Access auf die Vorschau-Adressen legen** (D). Zero Trust → Access → Anwendung für die Vorschau-Adresse (`*-weitmarer-brillenstudio.…workers.dev`);
+- [ ] **A4. Cloudflare Access auf die Vorschau-Adressen legen** (D). Zero Trust → Access → Anwendung für die Vorschau-Adresse (`*-weitmarer-brillenstudio-site.david-grimaud33.workers.dev`);
   Regel „E-Mail-Code“ für die Adressen von David und Alexander. *Prüfen:* siehe A6.
 - [ ] **A4a. Resend-Absenderdomain jetzt verifizieren** (D, **vor A5/A6**). Der Absender `termin@weitmarer-brillenstudio.de` (`TERMIN_FROM_EMAIL` in `wrangler.jsonc`) funktioniert nur, wenn die Domain in Resend verifiziert ist; sonst lehnt Resend den Versand ab und das Terminformular meldet in A6, D3 und F3 einen Fehler (502).
   In Resend die Domain `weitmarer-brillenstudio.de` hinzufügen und die genannten Einträge **bei Alfahosting** (dort liegt die DNS-Zone bis zum Nameserver-Wechsel) anlegen: DKIM (TXT), SPF und den Return-Path-MX auf einer **Subdomain** (z. B. `send.`), nie auf dem Apex.
