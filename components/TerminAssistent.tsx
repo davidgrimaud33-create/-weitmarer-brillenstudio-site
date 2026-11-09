@@ -1,10 +1,9 @@
 'use client'
 
 import { useSearchParams } from 'next/navigation'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { oeffnungszeiten, stammdaten } from '@/lib/content'
 import { MONATE_KURZ, WOCHENTAGE, WOCHENTAGE_KURZ, naechsteOeffnungstage } from '@/lib/oeffnungszeiten'
-import { trackEvent } from '@/lib/analytics'
 import { Icon } from './Icon'
 
 const ANLIEGEN = [
@@ -18,6 +17,19 @@ const ANLIEGEN = [
 
 type Zeitraum = 'vormittag' | 'nachmittag' | 'egal'
 
+// Spam-Schutz: Das Widget erscheint nur, wenn der Site-Key gesetzt ist (Cloudflare Turnstile).
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? ''
+const TURNSTILE_SCRIPT = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit'
+
+type TurnstileApi = {
+  render: (el: HTMLElement, opts: { sitekey: string; callback: (t: string) => void; 'expired-callback': () => void; 'error-callback': () => void }) => string
+  reset: (id?: string) => void
+  remove: (id?: string) => void
+}
+declare global {
+  interface Window { turnstile?: TurnstileApi }
+}
+
 export function TerminAssistent() {
   const params = useSearchParams()
   const [schritt, setSchritt] = useState(1)
@@ -26,7 +38,42 @@ export function TerminAssistent() {
   const [zeitraum, setZeitraum] = useState<Zeitraum>('vormittag')
   const [tage, setTage] = useState<ReturnType<typeof naechsteOeffnungstage>>([])
   const [form, setForm] = useState({ name: '', telefon: '', email: '', nachricht: '', einwilligung: false, website: '' })
+  const [turnstileToken, setTurnstileToken] = useState('')
   const [status, setStatus] = useState<'bereit' | 'sendet' | 'fehler'>('bereit')
+  const widgetBox = useRef<HTMLDivElement>(null)
+  const widgetId = useRef<string | undefined>(undefined)
+
+  // Widget nur im Kontaktschritt laden und anzeigen
+  useEffect(() => {
+    if (!TURNSTILE_SITE_KEY || schritt !== 3) return
+    let abgebrochen = false
+    const zeichnen = () => {
+      if (abgebrochen || !widgetBox.current || !window.turnstile || widgetId.current) return
+      widgetId.current = window.turnstile.render(widgetBox.current, {
+        sitekey: TURNSTILE_SITE_KEY,
+        callback: setTurnstileToken,
+        'expired-callback': () => setTurnstileToken(''),
+        'error-callback': () => setTurnstileToken(''),
+      })
+    }
+    if (window.turnstile) zeichnen()
+    else {
+      let el = document.querySelector<HTMLScriptElement>(`script[src="${TURNSTILE_SCRIPT}"]`)
+      if (!el) {
+        el = document.createElement('script')
+        el.src = TURNSTILE_SCRIPT
+        el.async = true
+        document.head.appendChild(el)
+      }
+      el.addEventListener('load', zeichnen)
+    }
+    return () => {
+      abgebrochen = true
+      if (widgetId.current) window.turnstile?.remove(widgetId.current)
+      widgetId.current = undefined
+      setTurnstileToken('')
+    }
+  }, [schritt])
 
   useEffect(() => setTage(naechsteOeffnungstage(oeffnungszeiten, 6)), [])
   useEffect(() => {
@@ -48,7 +95,7 @@ export function TerminAssistent() {
     ? `${WOCHENTAGE[tag.datum.getDay()]}, ${tag.datum.getDate()}. ${MONATE_KURZ[tag.datum.getMonth()]} · ${zeitraum === 'egal' ? 'Uhrzeit egal' : zeitraum === 'vormittag' ? 'Vormittags' : 'Nachmittags'}`
     : ''
   const fortschritt = { 1: 15, 2: 50, 3: 82, 4: 100 }[schritt] ?? 0
-  const kannSenden = form.name.trim().length > 1 && (form.telefon.trim().length > 4 || form.email.includes('@')) && form.einwilligung
+  const kannSenden = form.name.trim().length > 1 && (form.telefon.trim().length > 4 || form.email.includes('@')) && form.einwilligung && (!TURNSTILE_SITE_KEY || turnstileToken !== '')
 
   async function senden(e: React.FormEvent) {
     e.preventDefault()
@@ -58,14 +105,14 @@ export function TerminAssistent() {
       const res = await fetch('/api/termin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, anliegen: anliegenLabel, wunschtermin: wann }),
+        body: JSON.stringify({ ...form, anliegen: anliegenLabel, wunschtermin: wann, turnstileToken }),
       })
       if (!res.ok) throw new Error(String(res.status))
-      trackEvent('termin-anfrage', { anliegen: anliegen ?? '' })
       setStatus('bereit')
       setSchritt(4)
     } catch {
       setStatus('fehler')
+      if (widgetId.current) { window.turnstile?.reset(widgetId.current); setTurnstileToken('') }
     }
   }
 
@@ -153,13 +200,14 @@ export function TerminAssistent() {
             <input type="checkbox" checked={form.einwilligung} onChange={(e) => setForm({ ...form, einwilligung: e.target.checked })} className="mt-0.5 h-[22px] w-[22px] shrink-0 accent-blau" />
             <span>Ich bin einverstanden, dass meine Angaben zur Bearbeitung der Anfrage gespeichert werden. Mehr in der <a href="/datenschutz">Datenschutzerklärung</a>.</span>
           </label>
+          {TURNSTILE_SITE_KEY && <div ref={widgetBox} className="mt-5" />}
           {status === 'fehler' && (
             <p role="alert" className="mt-4 rounded-2xl bg-[#FFF1EF] p-4 text-[#7A1E18]">Das hat leider nicht geklappt. Bitte rufen Sie uns an: <a href={`tel:${stammdaten.telefonLink}`}>{stammdaten.telefon}</a></p>
           )}
           <button type="submit" disabled={!kannSenden || status === 'sendet'} className="mt-6 min-h-[52px] rounded-full bg-blau px-7 py-3.5 text-[17px] font-semibold text-white disabled:opacity-40">
             {status === 'sendet' ? 'Wird gesendet …' : 'Anfrage senden'}
           </button>
-          {!kannSenden && <p className="mt-2 text-sm text-text-3">Bitte Name, Telefon oder E-Mail und die Einwilligung angeben.</p>}
+          {!kannSenden && <p className="mt-2 text-sm text-text-3">Bitte Name, Telefon oder E-Mail und die Einwilligung angeben{TURNSTILE_SITE_KEY ? ' und den Spam-Schutz bestätigen' : ''}.</p>}
         </form>
       )}
 

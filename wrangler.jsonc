@@ -1,0 +1,18 @@
+{
+  // Cloudflare Worker: liefert die statische Seite aus ./out und nimmt Terminanfragen unter /api/termin an.
+  // Geheimnisse (RESEND_API_KEY, TURNSTILE_SECRET_KEY, N8N_WEBHOOK_URL, TERMIN_TO_EMAIL, TERMIN_TO_EMAIL_TEST)
+  // gehören NICHT hierher, sondern ins Cloudflare-Dashboard bzw. `wrangler secret put`.
+  "name": "weitmarer-brillenstudio",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-05-03",
+  "assets": {
+    "directory": "./out",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/api/*"]
+  },
+  "preview_urls": true,
+  "vars": {
+    "TERMIN_FROM_EMAIL": "Weitmarer Brillenstudio <termin@weitmarer-brillenstudio.de>"
+  }
+}
