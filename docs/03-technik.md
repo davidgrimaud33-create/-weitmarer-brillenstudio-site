@@ -72,15 +72,17 @@ Ein Worker-Projekt `weitmarer-brillenstudio`, per Workers Builds mit GitHub verb
 Produktions-Branch `main` → Deploy-Befehl `npx wrangler deploy`; Nicht-Produktions-Branches wie `staging` →
 `npx wrangler versions upload` (erzeugt eine Vorschau-Version mit eigener URL, `preview_urls: true`, ohne die Live-Seite zu ändern).
 Die Testversion wird erkannt über `WORKERS_CI_BRANCH` (≠ `main` → `NEXT_PUBLIC_IS_STAGING=true`, `noindex`).
-Geheimnisse und Variablen im Cloudflare-Dashboard (bzw. `wrangler secret put`), nie in `wrangler.jsonc` oder im Repo.
+Geheimnisse im Cloudflare-Dashboard (bzw. `wrangler secret put`), nie in `wrangler.jsonc` oder im Repo.
+`wrangler deploy` (Workers Builds auf `main`) überschreibt einfache Dashboard-Variablen, die nicht in `wrangler.jsonc` stehen; deshalb sind alle Werte, die zur Laufzeit im Worker gebraucht werden und nicht in `wrangler.jsonc` stehen, **Worker-Secrets** (verschlüsselt, bleiben bei Deploys erhalten). Build-Werte sind **Build-Variablen** von Workers Builds.
+Die Worker-Einstellungen gelten für alle Versionen des Workers (Live und Vorschau). Ob eine Anfrage „live“ ist, entscheidet nur der Hostname (siehe `LIVE_HOST`).
 
-| Variable / Secret | Live (`main`) | Testversion (`staging`) | Art |
+| Name | Live-Adresse | Vorschau-/Test-Adresse | Art |
 |---|---|---|---|
 | `RESEND_API_KEY` | ja | ja | Secret |
 | `TERMIN_FROM_EMAIL` | in `wrangler.jsonc` (`vars`) | gleich | Variable |
-| `TERMIN_TO_EMAIL` | Postfach des Ladens (sonst Fallback `content/stammdaten.json`) | – | Variable |
-| `TERMIN_TO_EMAIL_TEST` | – | **Pflicht**: Test-Postfach (David) | Variable |
-| `LIVE_HOST` | `www.weitmarer-brillenstudio.de` | – (muss ≠ Host der Testversion sein) | Variable |
+| `TERMIN_TO_EMAIL` | Postfach des Ladens (sonst Fallback `content/stammdaten.json`) | wird nicht verwendet | Secret |
+| `TERMIN_TO_EMAIL_TEST` | wird nicht verwendet | **Pflicht**: Test-Postfach (David) | Secret |
+| `LIVE_HOST` | `www.weitmarer-brillenstudio.de` (genau ein Hostname; gleicher Wert für den ganzen Worker) | Vorschau-Adressen haben einen anderen Host und bleiben dadurch automatisch im Testmodus (`worker/termin.ts`) | Secret |
 | `TURNSTILE_SECRET_KEY` | ja | ja | Secret |
 | `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | ja (Build-Variable) | ja (Build-Variable) | Build-Variable |
 | `NEXT_PUBLIC_CF_BEACON_TOKEN` | ja (Build-Variable) | – (auf Testversion wird nicht gemessen) | Build-Variable |
@@ -99,6 +101,7 @@ Voraussetzungen, die man leicht vergisst:
 - **Testversion braucht `TERMIN_TO_EMAIL_TEST`.** Ohne die Variable antwortet `/api/termin` auf der Testversion mit 503.
   (Mail an den Laden gibt es dort absichtlich nie.)
 - **`.wrangler/` gehört in `.gitignore`** (lokaler wrangler-Zwischenspeicher von `npm run vorschau`); steht dort bereits.
+- `workers.dev` für Production: `"workers_dev": false` in `wrangler.jsonc` setzen (beim Domain-Wechsel, Davids Änderung), sonst schaltet `wrangler deploy` die Adresse wieder ein.
 - Testversion schützen: Cloudflare Access (E-Mail-Code für Alexander und David) auf die Vorschau-Adresse legen, damit niemand
   Fremdes sie findet.
 - Rückgängig-Machen der Live-Seite: `npx wrangler deployments list` / `npx wrangler rollback <VERSION-ID> --message "…"`

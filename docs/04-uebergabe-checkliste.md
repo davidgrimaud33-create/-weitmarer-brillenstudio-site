@@ -23,14 +23,14 @@ Ziel: Testversion läuft, geschützt, Terminformular getestet. Live-Domain und E
   Produktions-Branch `main` → Deploy-Befehl `npx wrangler deploy`; Nicht-Produktions-Branches → `npx wrangler versions upload`.
   *Prüfen:* In den Einstellungen des Projekts stehen beide Befehle genau so; „Branch-Builds“ ist aktiv.
 - [ ] **A2. Spamschutz und Mailversand vorbereiten** (D). Turnstile-Widget anlegen (Site-Key + Secret), Resend-Konto mit API-Key.
-  Turnstile-Hostnamen: die `workers.dev`-Adresse; später kommen `www` und Apex dazu (Teil F).
+  Turnstile-Hostnamen: die `workers.dev`-Adresse; später kommen `www` und Apex dazu (Teil G).
   *Prüfen:* Site-Key und Secret liegen als Paar vor (nie nur eines setzen, siehe `docs/03-technik.md`).
-- [ ] **A3. Geheimnisse und Variablen setzen** (D), im Dashboard laut Tabelle in `docs/03-technik.md`:
-  - Secrets: `RESEND_API_KEY`, `TURNSTILE_SECRET_KEY`
-  - Variablen: `TERMIN_TO_EMAIL` (Postfach des Ladens, noch nicht aktiv relevant), `TERMIN_TO_EMAIL_TEST` (Davids Test-Postfach, **Pflicht**)
-  - Build-Variablen: `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `NEXT_PUBLIC_CF_BEACON_TOKEN`, `SITE_URL` (`https://www.weitmarer-brillenstudio.de`)
+- [ ] **A3. Geheimnisse und Variablen setzen** (D), im Dashboard (Worker → Einstellungen → Variablen und Geheimnisse bzw. Build → Build-Variablen) laut Tabelle in `docs/03-technik.md`.
+  Grund: `npx wrangler deploy` (Workers Builds auf `main`) überschreibt einfache Dashboard-Variablen, die nicht in `wrangler.jsonc` stehen. **Secrets** (verschlüsselt) bleiben bei jedem Deploy erhalten.
+  - **Worker-Secrets:** `RESEND_API_KEY`, `TURNSTILE_SECRET_KEY`, `TERMIN_TO_EMAIL` (Postfach des Ladens), `TERMIN_TO_EMAIL_TEST` (Davids Test-Postfach, **Pflicht**); `LIVE_HOST` später, siehe unten.
+  - **Build-Variablen** (Workers Builds, werden beim Bauen eingebacken): `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `NEXT_PUBLIC_CF_BEACON_TOKEN`, `SITE_URL` (`https://www.weitmarer-brillenstudio.de`)
   - **`LIVE_HOST` noch nicht setzen.** Erst beim Domain-Wechsel (Teil G). Solange er fehlt, gilt jede Adresse als Testversion, und Terminmails gehen nie an den Laden.
-  *Prüfen:* Alle Einträge sichtbar (Werte verdeckt). Kein Wert steht im Repo (`git grep -n "re_"` findet nichts).
+  *Prüfen:* Alle Einträge sichtbar (Werte verdeckt), die vier Worker-Werte unter „Geheimnisse“. Kein Wert steht im Repo (`git grep -n "re_"` findet nichts).
 - [ ] **A4. Cloudflare Access auf die Vorschau-Adressen legen** (D). Zero Trust → Access → Anwendung für die Vorschau-Adresse (`*-weitmarer-brillenstudio.…workers.dev`);
   Regel „E-Mail-Code“ für die Adressen von David und Alexander. *Prüfen:* siehe A6.
 - [ ] **A5. Branch `umbau-cloudflare` in `staging` mergen und pushen** (D). Erst nach grünem `npm run build` und `npm test` auf `umbau-cloudflare`.
@@ -78,6 +78,7 @@ Ziel: Testversion läuft, geschützt, Terminformular getestet. Live-Domain und E
   - [ ] **DMARC** (`_dmarc`), sonstige **TXT** (Verifizierungen z. B. für Google, Microsoft)
   - [ ] **A/AAAA/CNAME** für Apex, `www` und **alle Subdomains** (z. B. `mail.`, `webmail.`, `autodiscover.`, `autoconfig.`, `ftp.`)
   - [ ] **SRV**, **CAA**, falls vorhanden
+  - [ ] **DNSSEC aktiv?** DS-Eintrag bei Alfahosting bzw. DENIC prüfen (z. B. `dig DS weitmarer-brillenstudio.de +short`, Domainverwaltung bei Alfahosting). Ergebnis notieren: ______. Wenn aktiv, ist E5a Pflicht.
   *Prüfen:* Zusätzlich von außen gegenprüfen, falls das Kundenmenü unvollständig wirkt:
   `dig MX weitmarer-brillenstudio.de +short`, `dig TXT weitmarer-brillenstudio.de +short`, `dig TXT _dmarc.weitmarer-brillenstudio.de +short`, `dig CNAME www.weitmarer-brillenstudio.de +short`. Die Ausgabe in die Sicherung legen.
 - [ ] **C3. Alfahosting-Vertrag und Domain bleiben bestehen** (A). Der Vertrag wird **nicht gekündigt**: Die Domain ist dort registriert (Cloudflare Registrar unterstützt `.de` nicht), nur die Nameserver wechseln. Falls das Postfach dort liegt, braucht es den Vertrag weiter.
@@ -108,12 +109,13 @@ Die Einrichtung aus Teil A wird im neuen Konto **wiederholt**; das Konto von Dav
 - [ ] **E2. DNS-Einträge 1:1 nachbauen** (D). Jeden Eintrag aus der Sicherung (C2) in Cloudflare anlegen. Wichtig:
   - MX, SPF, DKIM, DMARC und alle sonstigen TXT **exakt** übernehmen (Werte, Priorität).
   - Einträge für Mail (`mail.`, `webmail.`, `autodiscover.` usw.) auf **„Nur DNS“ (graue Wolke)** stellen, nie über den Cloudflare-Proxy.
-  - Die **alten** Einträge für Apex und `www` (A/CNAME auf den bisherigen Webspace) erst im Teil F durch die Worker-Domains ersetzen, vorher die alte Seite weiter erreichbar lassen.
+  - Die **alten** Einträge für Apex und `www` (A/CNAME auf den bisherigen Webspace) erst in Teil G (G1) durch die Worker-Domains ersetzen, vorher die alte Seite weiter erreichbar lassen.
   *Prüfen:* Cloudflare kann beim Anlegen der Zone Einträge automatisch einlesen; Ergebnis **trotzdem Zeile für Zeile** mit der Sicherung abgleichen. Zweite Person (A) liest vor, D hakt ab.
 - [ ] **E3. Resend-Domain verifizieren** (D). In Resend die Domain `weitmarer-brillenstudio.de` hinzufügen; die genannten SPF/DKIM-Einträge im Cloudflare-DNS anlegen
   (zu einem vorhandenen SPF-Eintrag den Resend-Teil **ergänzen**, nie einen zweiten SPF-Eintrag anlegen). Der Absender `termin@weitmarer-brillenstudio.de` (`TERMIN_FROM_EMAIL`) braucht das.
   *Prüfen:* Resend zeigt die Domain als „Verified“.
 - [ ] **E4. Zeitpunkt wählen** (D+A). Nameserver-Wechsel nicht kurz vor Ladenschluss oder am Freitagabend; die Umstellung kann bis zu 24 Stunden dauern. Sofort danach Mail testen können.
+- [ ] **E5a. Nur wenn DNSSEC aktiv ist (C2):** bei Alfahosting DNSSEC deaktivieren und den **DS-Eintrag entfernen**, danach mindestens die TTL des DS-Eintrags abwarten (meist bis zu 24 Stunden, im Zweifel einen Tag Vorlauf). Erst dann E5. Sonst können Resolver, die DNSSEC prüfen, die Domain nach dem Wechsel als ungültig ablehnen und **auch Mail geht dann verloren**.
 - [ ] **E5. Nameserver bei Alfahosting umstellen** (A im Kundenmenü, D leitet an) auf die zwei Cloudflare-Nameserver aus E1.
   *Prüfen:* `dig NS weitmarer-brillenstudio.de +short` zeigt Cloudflare; Zone in Cloudflare wechselt auf „Aktiv“.
 - [ ] **E6. Mail testen** (D+A), sofort und nochmal nach einigen Stunden:
@@ -121,57 +123,78 @@ Die Einrichtung aus Teil A wird im neuen Konto **wiederholt**; das Konto von Dav
   - [ ] **Empfang:** Testmail von einer fremden Adresse (z. B. Davids) an `info@weitmarer-brillenstudio.de`; Alexander bestätigt den Eingang im Postfach.
   - [ ] **Versand:** Alexander schickt eine Mail aus dem Postfach an eine fremde Adresse; sie kommt an und landet nicht im Spam (SPF/DKIM: im Mail-Header prüfen).
   - [ ] Die alte Webseite (bisheriger Webspace) ist über `www` noch erreichbar, falls sie bis jetzt weiterläuft.
+  - [ ] **DNSSEC (falls vorher aktiv):** erst jetzt, **nach bestandenen Mail-Tests**, in Cloudflare (DNS → Einstellungen → DNSSEC) aktivieren und den dort angezeigten **neuen DS-Eintrag** bei Alfahosting eintragen. Danach `dig MX …` und Mail-Test wiederholen.
   **Im Fehlerfall:** Nameserver bei Alfahosting wieder auf die ursprünglichen Werte zurückstellen (vor dem Wechsel notieren!) und die Sicherung C2 vergleichen.
   *Haltepunkt 5:* Mail-Empfang und -Versand laufen über die neuen Nameserver. Ohne das kein Teil F.
 
 ---
 
-## Teil F – Domains am Worker und Weiterleitung
+## Teil F – Freigabe, Production-Deploy und Rauchtest (noch ohne eigene Domain)
 
-- [ ] **F1. Custom Domains am Worker** (D). Im Worker-Projekt (Alexanders Konto) → Domains → `www.weitmarer-brillenstudio.de` **und** `weitmarer-brillenstudio.de` (Apex) hinzufügen.
-  Cloudflare ersetzt dabei vorhandene A/CNAME-Einträge für diese Namen; Mail-Einträge (MX/TXT) bleiben unberührt, danach trotzdem `dig MX` wiederholen.
-  *Prüfen:* Beide Namen zeigen das Zertifikat „aktiv“.
-- [ ] **F2. Weiterleitung Apex → www** (D). Cloudflare → Regeln → Redirect Rules: Wenn Hostname = `weitmarer-brillenstudio.de`, dann 301 auf `https://www.weitmarer-brillenstudio.de${http.request.uri.path}` (Pfad und Abfrage erhalten).
-  Grund: `LIVE_HOST` ist genau **ein** Hostname; ohne Weiterleitung gälten Anfragen über die Apex-Adresse als Testversion und gingen ans Test-Postfach.
-  *Prüfen:* `curl -sI https://weitmarer-brillenstudio.de/termin` zeigt `301` und `location: https://www.weitmarer-brillenstudio.de/termin`.
-- [ ] **F3. Turnstile und Statistik** (D). Turnstile-Widget: `www.weitmarer-brillenstudio.de` (und Apex) als Hostnamen eintragen. Web Analytics: Standort `www.weitmarer-brillenstudio.de`; Beacon-Token als Build-Variable gesetzt (A3/D3).
-- [ ] **F4. `workers.dev` für Production abschalten** (D). Im Worker unter Domains & Routen die `workers.dev`-Adresse der Live-Version deaktivieren, damit die Seite nicht doppelt unter einer zweiten Adresse live ist.
-  Die **Vorschau-Adressen** (`preview_urls`) bleiben, geschützt durch Access. *Prüfen:* Die `workers.dev`-Adresse der Live-Version liefert keine Seite mehr; `[STAGING-URL]` fragt weiter nach dem Login.
-  *Haltepunkt 6:* Domains verbunden, Weiterleitung geprüft, noch **kein** `LIVE_HOST`, noch kein Live-Push.
+Bis hier hängt keine echte Domain am Worker. Jetzt wird `main` gebaut und **zuerst unter der Production-`workers.dev`-Adresse** geprüft. Erst danach gehen Domains dran.
+Hinweis: Diese Adresse ist nicht durch Access geschützt und hat kein `noindex`; sie nur intern verwenden und die Zeit bis G5 kurz halten.
 
----
-
-## Teil G – Erster Live-Gang und Rückgängig-Test
-
-- [ ] **G1. Davids ausdrückliche Freigabe** (D, schriftlich im Chat oder Notiz mit Datum): „Live-Gang freigegeben.“ Voraussetzungen alle abgehakt: A6, B1 bis B3, E6, F2.
-- [ ] **G2. `LIVE_HOST` setzen** (D): Variable `LIVE_HOST` = `www.weitmarer-brillenstudio.de` **nur für die Produktion** (nicht für die Testversion), `TERMIN_TO_EMAIL` auf das Postfach des Ladens. Keine `NEXT_PUBLIC_IS_STAGING`-Variable manuell setzen.
-- [ ] **G3. Live schalten** (D mit A): Nach dem Ablauf des Befehls `live-schalten`
+- [ ] **F1. Davids ausdrückliche Freigabe** (D, schriftlich im Chat oder Notiz mit Datum): „Live-Gang freigegeben.“ Voraussetzungen alle abgehakt: A6, B1 bis B3, E6 (inkl. DNSSEC-Schritt), Haltepunkte 1 bis 5.
+- [ ] **F2. `main` bauen und deployen** (D mit A), nach dem Ablauf des Befehls `live-schalten`:
   ```
   git checkout main && git pull && git merge staging && git push
   ```
-  Cloudflare baut `main` und veröffentlicht. Danach zurück auf `staging`: `git checkout staging`.
-- [ ] **G4. Live-Seite prüfen** (D+A) auf `[LIVE-URL]`:
+  Danach zurück auf `staging`: `git checkout staging`. *Prüfen:* Cloudflare-Build für `main` grün; `npx wrangler deployments list` zeigt die neue Veröffentlichung.
+  **Nach jedem Deploy prüfen:** (1) `LIVE_HOST` ist hier **noch nicht** gesetzt (richtig), die vier Worker-Secrets aus A3 sind weiter vorhanden (Dashboard → Geheimnisse); (2) Zustand von `workers.dev` entspricht dem Plan (hier: Production-`workers.dev` **an**, weil F3 sie braucht).
+- [ ] **F3. Rauchtest auf der Production-`workers.dev`-Adresse** (D+A):
+  - [ ] Alle Hauptseiten laden; alte Adressen leiten weiter (A6-Liste inkl. Entscheidung zu den Varianten ohne Schrägstrich).
+  - [ ] Terminformular mit Testdaten absenden: Die Mail geht **ans Test-Postfach**, nicht an den Laden (Host ist `workers.dev`, `LIVE_HOST` fehlt). **Im Postfach des Ladens darf nichts ankommen.**
+  - [ ] Turnstile funktioniert (Hostname `workers.dev` ist im Widget eingetragen, A2).
+  *Haltepunkt 6:* Production-Version unter `workers.dev` ist in Ordnung. **Noch keine Domain angehängt, `LIVE_HOST` nicht gesetzt.** Bei Fehlern: `rueckgaengig`-Ablauf bzw. Fix über `staging`, die Domain wird noch nicht berührt.
+
+---
+
+## Teil G – Domains umschalten (der eigentliche Live-Gang) und Live-Prüfung
+
+- [ ] **G1. Custom Domains am Worker** (D). Im Worker-Projekt (Alexanders Konto) → Domains → `www.weitmarer-brillenstudio.de` **und** `weitmarer-brillenstudio.de` (Apex) hinzufügen.
+  Cloudflare ersetzt dabei vorhandene A/CNAME-Einträge für diese Namen (der **Rückweg steht unter G7**); Mail-Einträge (MX/TXT) bleiben unberührt, danach trotzdem `dig MX` wiederholen.
+  *Prüfen:* Beide Namen zeigen das Zertifikat „aktiv“.
+- [ ] **G2. Weiterleitung Apex → www** (D), **sofort nach G1**. Cloudflare → Regeln → Redirect Rules: Wenn Hostname = `weitmarer-brillenstudio.de`, dann 301 auf `https://www.weitmarer-brillenstudio.de${http.request.uri.path}` (Pfad und Abfrage erhalten).
+  *Prüfen:* `curl -sI https://weitmarer-brillenstudio.de/termin` zeigt `301` und `location: https://www.weitmarer-brillenstudio.de/termin`.
+- [ ] **G3. `LIVE_HOST` als Worker-Secret setzen** (D): Name `LIVE_HOST`, Wert genau **`www.weitmarer-brillenstudio.de`**. Es gibt nur **einen** Live-Hostnamen. Die Worker-Einstellungen gelten für alle Versionen des Workers; Vorschau-Adressen haben einen anderen Hostnamen und bleiben deshalb automatisch im Testmodus (Terminmails ans Test-Postfach, `noindex`; siehe `worker/termin.ts`).
+  Es darf keine `NEXT_PUBLIC_IS_STAGING`-Variable von Hand gesetzt werden.
+  *Prüfen:* Das Secret erscheint im Dashboard; Terminformular auf `[LIVE-URL]` (G6) geht jetzt an den Laden, auf `workers.dev` und Vorschau-Adressen weiter ans Test-Postfach.
+- [ ] **G4. Turnstile und Statistik** (D). Turnstile-Widget: `www.weitmarer-brillenstudio.de` und Apex als Hostnamen eintragen. Web Analytics: Standort `www.weitmarer-brillenstudio.de`; Beacon-Token ist als Build-Variable gesetzt (A3/D3).
+- [ ] **G5. `workers.dev` für Production abschalten, in Git** (D). In `wrangler.jsonc` `"workers_dev": false` ergänzen (geschützte Datei, nur Davids Änderung), über `staging` testen (`npm run build`) und nach `main` bringen (wie F2). Nur im Dashboard abzuschalten reicht nicht: Der nächste `wrangler deploy` schaltet `workers.dev` sonst wieder ein.
+  Die **Vorschau-Adressen** (`preview_urls: true`) bleiben, geschützt durch Access.
+  **Prüfen nach diesem Deploy:** (1) `LIVE_HOST` ist im Dashboard weiter vorhanden, ebenso die übrigen Worker-Secrets; (2) die Production-`workers.dev`-Adresse liefert keine Seite mehr; (3) `[STAGING-URL]` fragt weiter nach dem Login; (4) `[LIVE-URL]` lädt.
+- [ ] **G6. Live-Seite prüfen** (D+A) auf `[LIVE-URL]`:
   - [ ] Seite lädt unter `https://www…`; `https://weitmarer-brillenstudio.de` leitet auf `www` um; `http://` leitet auf `https://`.
   - [ ] **Kein** `noindex` im Quelltext, `robots.txt` und `sitemap.xml` zeigen auf `www.weitmarer-brillenstudio.de`.
-  - [ ] Alte Adressen leiten weiter (A6-Liste, inkl. Ergebnis der Variante ohne Schrägstrich).
-  - [ ] **Terminformular mit einer echten Testanfrage** (Betreff/Name deutlich als „TEST“ markieren): Die Mail kommt im **Postfach des Ladens** an, die Bestätigung bei der Testadresse. Alexander löscht die Test-Mail danach.
-  - [ ] Cloudflare Web Analytics zählt (nach einigen Minuten sichtbar), kein Cookie-Hinweis nötig.
-  *Haltepunkt 7:* Live-Seite und Formular laufen.
-- [ ] **G5. Rollback einmal echt testen** (D führt aus, A schaut zu; Ablauf wie im Skill `rueckgaengig`, Teil A):
+  - [ ] Alte Adressen leiten weiter (A6-Liste).
+  - [ ] **Terminformular mit einer echten Testanfrage** (Name deutlich als „TEST“ markieren): Die Mail kommt im **Postfach des Ladens** an, die Bestätigung bei der Testadresse. Alexander löscht die Test-Mail danach.
+  - [ ] Cloudflare Web Analytics zählt (nach einigen Minuten sichtbar).
+  - [ ] `dig MX weitmarer-brillenstudio.de +short` unverändert gegenüber der Sicherung.
+- [ ] **G7. Notausstieg für den Domain-Schritt** (nur bei Problemen, D). Reihenfolge:
+  1. Im Worker unter Domains die Custom Domains `www.` und Apex **entfernen**, die Redirect Rule (G2) deaktivieren.
+  2. Im Cloudflare-DNS die **alten A/CNAME-Einträge für Apex und `www` aus der Sicherung C2 wieder anlegen** (Alfahosting-Webspace); alle Mail-Einträge bleiben unverändert.
+  3. `LIVE_HOST` löschen (Secret entfernen), falls schon gesetzt, damit nichts mehr als „live“ gilt.
+  4. Prüfen: `dig www.weitmarer-brillenstudio.de +short` zeigt wieder die alten Ziele, alte Seite lädt, `dig MX` und Mail-Test (E6) bestanden.
+  5. Bleibt dennoch alles kaputt: Nameserver bei Alfahosting auf die ursprünglichen Werte zurück (siehe E6, Fehlerfall; bei aktivem DNSSEC vorher den DS-Eintrag beachten).
+  *Haltepunkt 7:* Live-Seite und Formular laufen (G6 komplett) oder der Notausstieg ist durchgeführt und geprüft.
+- [ ] **G8. Rollback einmal echt testen** (D führt aus, A schaut zu; Ablauf wie im Skill `rueckgaengig`, Teil A):
   1. `npx wrangler deployments list` anzeigen. Ziel **nur** aus dieser Liste (nie aus `npx wrangler versions list`, dort stehen auch nie veröffentlichte Testversionen).
      Gibt es erst **eine** Veröffentlichung, vorher eine harmlose Änderung (z. B. ein Leerzeichen in einem Kommentar in einer Content-Datei) über `staging` → `main` live bringen, damit es ein Ziel gibt.
   2. Vorherige Veröffentlichung nennen, Alexander bestätigt.
   3. `npx wrangler rollback <VERSION-ID> --message "Rollback-Test bei der Übergabe" --yes`
-  4. `npx wrangler deployments list` zeigt die gewählte Version als aktiv; Live-Seite öffnen.
+  4. `npx wrangler deployments list` zeigt die gewählte Version als aktiv; Live-Seite öffnen (`[LIVE-URL]`).
   5. **Wieder vorwärts:** Die neueste Veröffentlichung aus `deployments list` auf dieselbe Art wieder aktivieren (`npx wrangler rollback <NEUESTE-VERSION-ID> --message "Zurück auf aktuellen Stand" --yes`); `deployments list` prüfen, Live-Seite prüfen.
   Hinweis: Der Rollback ändert nur die Live-Seite, nicht Git. Beim nächsten Push auf `main` gilt wieder der Stand aus Git.
   *Prüfen:* Nach dem Zurückrollen ist die aktuelle (neueste) Version wieder aktiv, Formular erneut kurz getestet.
 
 ---
+  *Haltepunkt 8:* Rollback getestet und wieder vorwärts; `LIVE_HOST` und `workers.dev`-Zustand danach nochmals geprüft.
+
+---
 
 ## Teil H – Aufräumen
 
-- [ ] **H1. Netlify-Site `wbs-staging` löschen** (D), erst wenn G4 bestanden ist und die Testversion unter Cloudflare läuft. Auch alte Netlify-Formulare/Zugänge schließen.
+- [ ] **H1. Netlify-Site `wbs-staging` löschen** (D), erst wenn G6 bestanden ist und die Testversion unter Cloudflare läuft. Auch alte Netlify-Formulare/Zugänge schließen.
 - [ ] **H2. `docs/01-zugaenge.md` aktualisieren** (D): Netlify-Hinweise streichen (steht dort schon als „entfallen“), Status von Cloudflare/Resend/GitHub auf „eingerichtet“ setzen, Repo-Inhaber eintragen.
 - [ ] **H3. Offene Punkte in `docs/03-technik.md` abhaken** (D), was erledigt ist.
 - [ ] **H4. Alten Webspace bei Alfahosting** (D+A): Nur ansehen, **nicht kündigen**. Erst nach Wochen, wenn klar ist, dass Postfach und Domain wirklich nichts mehr brauchen, über Änderungen am Vertrag sprechen.
@@ -203,5 +226,6 @@ Alexander arbeitet danach selbst mit Claude Code. Alles in einer Sitzung, David 
 3. DNS-Sicherung vollständig, Nameserver-Wechsel erlaubt.
 4. Alles läuft unter Alexanders Konten (Cloudflare, GitHub, Resend, Turnstile).
 5. Mail-Empfang und -Versand nach dem Nameserver-Wechsel getestet.
-6. Domains am Worker, Apex → www, workers.dev aus.
-7. Live-Seite und Formular getestet; Rollback einmal geübt und wieder vorwärts.
+6. Production-Version unter `workers.dev` getestet (Testmail geht noch ans Test-Postfach), noch keine Domain, kein `LIVE_HOST`.
+7. Domains umgeschaltet, `LIVE_HOST` gesetzt, Live-Seite und Formular getestet (oder Notausstieg G7 durchgeführt).
+8. Rollback einmal geübt und wieder vorwärts.
