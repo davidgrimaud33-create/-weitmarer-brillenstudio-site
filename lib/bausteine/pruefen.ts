@@ -188,6 +188,10 @@ export function pruefeSeite(daten: unknown, datei: string): Seite {
   if (daten.stichworte === undefined) melde('Das Feld "stichworte" fehlt (darf leer sein: "").')
   if (typeof daten.stichworte !== 'string') melde('Das Feld "stichworte" muss ein Text sein.')
   const bausteine = liste(daten, 'bausteine', 1, Infinity, melde).map((b, i) => pruefeBaustein(b, i + 1, datei))
+  // Nur die Bühne erzeugt die Überschrift (h1) der Seite – zwei davon wären zwei Hauptüberschriften.
+  if (bausteine.filter((b) => b.typ === 'buehne').length > 1) {
+    melde('Eine Seite darf nur einen Baustein "buehne" haben.')
+  }
 
   // Die Adresse kommt immer aus dem Dateinamen; ein Eintrag "adresse" in der Datei wird ignoriert.
   const adresse = (datei.split(/[\\/]/).pop() ?? '').replace(/\.json$/, '')

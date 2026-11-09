@@ -1,5 +1,7 @@
 import type { MetadataRoute } from 'next'
 
+import { ladeSeiten } from '@/lib/seiten'
+import { sitemapEintraege } from '@/lib/navigation'
 import { SITE_URL } from '@/lib/feature-flags'
 
 export const dynamic = 'force-static'
@@ -17,5 +19,6 @@ const SEITEN: { pfad: string; prio: number }[] = [
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const jetzt = new Date()
-  return SEITEN.map((s) => ({ url: `${SITE_URL}${s.pfad}`, lastModified: jetzt, priority: s.prio }))
+  const alle = [...SEITEN, ...sitemapEintraege(ladeSeiten()).map((pfad) => ({ pfad, prio: 0.6 }))]
+  return alle.map((s) => ({ url: `${SITE_URL}${s.pfad}`, lastModified: jetzt, priority: s.prio }))
 }

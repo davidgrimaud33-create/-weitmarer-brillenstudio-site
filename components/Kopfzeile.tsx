@@ -4,13 +4,15 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { HAUPTMENUE } from '@/lib/navigation'
 import { stammdaten } from '@/lib/content'
 import { Icon } from './Icon'
 import { LiveStatus } from './LiveStatus'
 import { Suche } from './Suche'
 
-export function Kopfzeile() {
+type Eintrag = { href: string; label: string }
+type SuchEintrag = { titel: string; href: string; stichworte: string }
+
+export function Kopfzeile({ menue, suchindex }: { menue: Eintrag[]; suchindex: SuchEintrag[] }) {
   const pfad = usePathname()
   const [menueOffen, setMenueOffen] = useState(false)
   const [sucheOffen, setSucheOffen] = useState(false)
@@ -36,7 +38,7 @@ export function Kopfzeile() {
           </Link>
 
           <nav aria-label="Hauptnavigation" className="hidden flex-1 gap-7 text-base font-medium lg:flex">
-            {HAUPTMENUE.map((m) => {
+            {menue.map((m) => {
               const aktiv = pfad.startsWith(m.href)
               return (
                 <Link
@@ -79,7 +81,7 @@ export function Kopfzeile() {
 
         {menueOffen && (
           <nav id="mobilmenue" aria-label="Mobilmenü" className="border-t border-ink/10 bg-grund px-6 pb-6 pt-2 lg:hidden">
-            {HAUPTMENUE.map((m) => (
+            {menue.map((m) => (
               <Link key={m.href} href={m.href} className="block border-b border-ink/10 py-4 text-2xl text-ink no-underline condensed uppercase">
                 {m.label}
               </Link>
@@ -91,7 +93,7 @@ export function Kopfzeile() {
         )}
       </header>
 
-      <Suche offen={sucheOffen} schliessen={() => setSucheOffen(false)} />
+      <Suche index={suchindex} offen={sucheOffen} schliessen={() => setSucheOffen(false)} />
     </>
   )
 }

@@ -36,6 +36,12 @@ describe('pruefeSeite', () => {
     })
   }
 
+  it('lässt höchstens einen Baustein "buehne" pro Seite zu', () => {
+    expect(() => pruefeSeite(seite([BEISPIELE.buehne, BEISPIELE.text, BEISPIELE.buehne]), DATEI)).toThrow(
+      /sportbrillen\.json: Eine Seite darf nur einen Baustein "buehne" haben\./,
+    )
+  })
+
   it('meldet einen unbekannten Baustein-Typ', () => {
     expect(() => pruefeSeite(seite([{ typ: 'slider' }]), DATEI)).toThrow(/slider[\s\S]*Baustein 1|Baustein 1[\s\S]*slider/)
   })

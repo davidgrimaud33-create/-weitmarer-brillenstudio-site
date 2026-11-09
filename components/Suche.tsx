@@ -2,11 +2,10 @@
 
 import Link from 'next/link'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { SUCHINDEX } from '@/lib/navigation'
 import { Icon } from './Icon'
 
-/** Schnelle Seitensuche über alle Bereiche (statischer Index in lib/navigation.ts) */
-export function Suche({ offen, schliessen }: { offen: boolean; schliessen: () => void }) {
+/** Schnelle Seitensuche über alle Bereiche (Index kommt aus lib/navigation.ts) */
+export function Suche({ index, offen, schliessen }: { index: { titel: string; href: string; stichworte: string }[]; offen: boolean; schliessen: () => void }) {
   const [q, setQ] = useState('')
   const eingabe = useRef<HTMLInputElement>(null)
 
@@ -21,9 +20,9 @@ export function Suche({ offen, schliessen }: { offen: boolean; schliessen: () =>
 
   const treffer = useMemo(() => {
     const s = q.trim().toLowerCase()
-    if (!s) return SUCHINDEX.slice(0, 6)
-    return SUCHINDEX.filter((e) => (e.titel + ' ' + e.stichworte).toLowerCase().includes(s))
-  }, [q])
+    if (!s) return index.slice(0, 6)
+    return index.filter((e) => (e.titel + ' ' + e.stichworte).toLowerCase().includes(s))
+  }, [q, index])
 
   if (!offen) return null
   return (

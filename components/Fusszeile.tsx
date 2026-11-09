@@ -1,8 +1,7 @@
 import Link from 'next/link'
-import { HAUPTMENUE } from '@/lib/navigation'
 import { stammdaten, besonderes } from '@/lib/content'
 
-export function Fusszeile() {
+export function Fusszeile({ menue, links }: { menue: { href: string; label: string }[]; links: { href: string; label: string }[] }) {
   return (
     <footer className="bg-ink pb-24 text-[15px] text-auf-dunkel lg:pb-0">
       <div className="mx-auto flex max-w-[1320px] flex-wrap justify-between gap-x-16 gap-y-8 px-6 pb-8 pt-16">
@@ -13,11 +12,14 @@ export function Fusszeile() {
         <div className="flex-[1_1_180px]">
           <div className="font-semibold text-white">Bereiche</div>
           <ul className="mt-2 space-y-1.5">
-            {HAUPTMENUE.map((m) => (
+            {menue.map((m) => (
               <li key={m.href}><Link href={m.href} className="text-auf-dunkel hover:text-white">{m.label}</Link></li>
             ))}
             <li><Link href="/termin" className="text-auf-dunkel hover:text-white">Termin &amp; Kontakt</Link></li>
             <li><Link href="/holzkern" className="text-auf-dunkel hover:text-white">Holzkern-Uhren</Link></li>
+            {links.map((l) => (
+              <li key={l.href}><Link href={l.href} className="text-auf-dunkel hover:text-white">{l.label}</Link></li>
+            ))}
             <li><a href={besonderes.irisfotografie.url} target="_blank" rel="noopener" className="text-auf-dunkel hover:text-white">Irisfotografie ↗</a></li>
           </ul>
         </div>

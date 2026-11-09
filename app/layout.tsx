@@ -6,6 +6,8 @@ import { Kopfzeile } from '@/components/Kopfzeile'
 import { Fusszeile } from '@/components/Fusszeile'
 import { MobilLeiste } from '@/components/MobilLeiste'
 import { stammdaten, oeffnungszeiten } from '@/lib/content'
+import { ladeSeiten } from '@/lib/seiten'
+import { fusszeilenLinks, hauptmenue, suchindex } from '@/lib/navigation'
 import { isStaging, SITE_URL } from '@/lib/feature-flags'
 
 const archivo = Archivo({
@@ -61,13 +63,14 @@ const jsonLd = {
 const CF_BEACON_TOKEN = process.env.NEXT_PUBLIC_CF_BEACON_TOKEN
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const seiten = ladeSeiten()
   return (
     <html lang="de" className={archivo.variable}>
       <body>
         <a href="#inhalt" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-white focus:px-4 focus:py-2">Zum Inhalt springen</a>
-        <Kopfzeile />
+        <Kopfzeile menue={hauptmenue(seiten)} suchindex={suchindex(seiten)} />
         <main id="inhalt">{children}</main>
-        <Fusszeile />
+        <Fusszeile menue={hauptmenue(seiten)} links={fusszeilenLinks(seiten)} />
         <MobilLeiste />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         {!isStaging && CF_BEACON_TOKEN && (
