@@ -36,6 +36,8 @@ function rahmen(kicker: string, titel: string, inhalt: string) {
   </div></body></html>`
 }
 
+const EMAIL_FORMAT = /^[^\s@,<>]+@[^\s@,<>]+\.[^\s@,<>]+$/
+
 const antwort = (body: Record<string, unknown>, status: number) => Response.json(body, { status })
 
 async function turnstileOk(env: Env, token: string | undefined, ip: string | null): Promise<boolean> {
@@ -74,7 +76,9 @@ export async function handleTermin(req: Request, env: Env, ctx: ExecutionContext
   const anliegen = str(p.anliegen, 80)
   const wunschtermin = str(p.wunschtermin, 120)
 
-  if (name.length < 2 || (!telefon && !email.includes('@')) || p.einwilligung !== true) {
+  const emailGueltig = EMAIL_FORMAT.test(email)
+
+  if (name.length < 2 || (!telefon && !emailGueltig) || p.einwilligung !== true) {
     return antwort({ ok: false, error: 'Pflichtangaben fehlen' }, 422)
   }
 
@@ -104,13 +108,13 @@ export async function handleTermin(req: Request, env: Env, ctx: ExecutionContext
   const notif = await sendeMail(env, {
     from,
     to: empfaenger,
-    replyTo: email || undefined,
+    replyTo: emailGueltig ? email : undefined,
     subject: `${istLive ? '' : '[TEST] '}Terminanfrage: ${anliegen} – ${name}`,
     html: rahmen('Neue Terminanfrage', `${esc(anliegen)} · ${esc(name)}`, tabelle + nachrichtHtml),
   })
   if (!notif.ok) return antwort({ ok: false, error: 'Versand fehlgeschlagen' }, 502)
 
-  if (email.includes('@')) {
+  if (emailGueltig) {
     const bestaetigung = await sendeMail(env, {
       from,
       to: email,

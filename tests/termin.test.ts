@@ -130,6 +130,20 @@ describe('handleTermin', () => {
     expect(m[1].to).toBe('kunde@example.de')
   })
 
+  it('Telefon + ungültige E-Mail -> 200, kein reply_to, keine Bestätigung', async () => {
+    const res = await run(anfrage({ ...gueltig, email: 'a@b' }), umgebung())
+    expect(res.status).toBe(200)
+    const m = mails()
+    expect(m).toHaveLength(1)
+    expect(m[0]).not.toHaveProperty('reply_to')
+    expect(m[0].html).toContain('a@b')
+  })
+
+  it('kein Telefon + ungültige E-Mail -> 422', async () => {
+    const res = await run(anfrage({ ...gueltig, telefon: '', email: 'max.muster.de' }), umgebung())
+    expect(res.status).toBe(422)
+  })
+
   it('Bestätigung schlägt fehl -> trotzdem 200', async () => {
     let n = 0
     fetchMock.mockImplementation(async () => (++n === 1 ? ok() : new Response('x', { status: 500 })))
