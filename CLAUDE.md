@@ -20,7 +20,7 @@ Für die häufigen Aufgaben gibt es Schritt-für-Schritt-Befehle. Nutze sie, sob
    Cloudflare baut daraufhin die **Testversion** neu (1–2 Minuten). Sie liegt unter `[STAGING-URL]`
    und ist durch einen Login (Cloudflare Access) geschützt. Alexander prüft dort, am besten auch am Handy.
 4. Erst wenn Alexander ausdrücklich sagt „passt, live schalten“ (oder etwas klar Gleichbedeutendes):
-   `git checkout main && git pull && git merge staging && git push` → die Live-Seite (`[LIVE-URL]`)
+   `git checkout main && git pull && git merge staging && git push` → die Live-Seite (`https://www.weitmarer-brillenstudio.de`)
    wird neu gebaut. Genauer Ablauf: Befehl `live-schalten`.
 5. Danach zurück auf `staging` wechseln.
 

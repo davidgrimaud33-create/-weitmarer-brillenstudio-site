@@ -88,6 +88,8 @@ Die Worker-Einstellungen gelten für alle Versionen des Workers (Live und Vorsch
 | `NEXT_PUBLIC_CF_BEACON_TOKEN` | ja (Build-Variable) | – (auf Testversion wird nicht gemessen) | Build-Variable |
 | `N8N_WEBHOOK_URL` | leer (Phase 2) | leer | Secret |
 
+**Wichtig: Das Formular funktioniert erst, wenn die Absenderdomain `weitmarer-brillenstudio.de` in Resend verifiziert ist** (DKIM, SPF, Return-Path, Status „Verified"). `TERMIN_FROM_EMAIL` nutzt diese Domain, und Resend lehnt Mails von nicht verifizierten Absendern ab; das Formular meldet dann einen Fehler (502). Die Verifizierung steht deshalb früh in der Übergabe-Checkliste (A4a), nicht erst nach dem Nameserver-Wechsel. Bei einem neuen Resend-Konto (z. B. Alexanders) die Domain dort erneut verifizieren; die Einträge können sich ändern.
+
 `NEXT_PUBLIC_*` werden beim **Build** eingebacken: Nach einer Änderung neu bauen (neuer Commit bzw. „Retry build“).
 
 Voraussetzungen, die man leicht vergisst:
@@ -110,7 +112,7 @@ Voraussetzungen, die man leicht vergisst:
 ## Offene Punkte
 
 - [ ] Cloudflare-Konto, Worker-Projekt mit GitHub verbinden, Variablen laut Tabelle setzen, Access für die Testversion
-- [ ] Resend-Konto, Domain verifizieren (SPF/DKIM im Cloudflare-DNS)
+- [ ] Resend-Konto, Domain verifizieren (DKIM/SPF/Return-Path; zuerst bei Alfahosting, nach dem Nameserver-Wechsel in Cloudflare, siehe Checkliste A4a/E2/E3)
 - [ ] Turnstile-Widget anlegen (Site-Key + Secret)
 - [ ] Domain-Umzug (Nameserver) inkl. Sicherung/Übernahme der Mail-Einträge (MX, SPF, DKIM); Apex → www
 - [ ] GitHub-Repo auf Alexander übertragen, Cloudflare ↔ GitHub neu verbinden

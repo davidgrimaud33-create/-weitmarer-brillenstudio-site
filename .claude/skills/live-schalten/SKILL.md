@@ -26,5 +26,5 @@ etwas geändert, zeige ihm das und frage neu.
    dass David helfen muss, und `git merge --abort` ausführen.
 4. **Sofort zurück auf `staging`:** `git checkout staging`.
 5. Rückmeldung an Alexander: Die Änderung ist in 1 bis 2 Minuten auf der Live-Seite
-   ([LIVE-URL]) sichtbar. Bitte kurz dort nachsehen. Wenn etwas nicht stimmt, genügt der Satz
+   (https://www.weitmarer-brillenstudio.de) sichtbar. Bitte kurz dort nachsehen. Wenn etwas nicht stimmt, genügt der Satz
    "Mach die letzte Änderung rückgängig" (Befehl `rueckgaengig`).

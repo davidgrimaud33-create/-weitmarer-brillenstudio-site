@@ -33,7 +33,7 @@ aber **Alexander muss vorher sehen, wohin es zurückgeht, und bestätigen**:
    npx wrangler rollback <VERSION-ID> --message "Notfall: letzte Änderung rückgängig" --yes
    ```
 4. Mit `npx wrangler deployments list` prüfen, dass die gewünschte Version jetzt aktiv ist, und
-   Alexander bitten, die Live-Seite ([LIVE-URL]) zu öffnen und zu prüfen.
+   Alexander bitten, die Live-Seite (https://www.weitmarer-brillenstudio.de) zu öffnen und zu prüfen.
 5. Funktioniert `wrangler` nicht (nicht angemeldet, Fehlermeldung): Alexander sagen, dass David den
    Rollback im Cloudflare-Dashboard machen muss, und mit Teil B trotzdem weitermachen.
 

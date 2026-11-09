@@ -14,7 +14,7 @@ Claude kennt die Regeln für diese Seite (Datei `CLAUDE.md`) und hält sich dara
 4. **Wenn alles passt**, sagen Sie: „Passt, bitte live schalten.“ Erst dann wird die echte Seite aktualisiert.
    Nach ein bis zwei Minuten ist die Änderung online.
 
-Die Testversion finden Sie unter [STAGING-URL] (mit Anmeldung per E-Mail-Code), die echte Seite unter [LIVE-URL].
+Die Testversion finden Sie unter [STAGING-URL] (mit Anmeldung per E-Mail-Code), die echte Seite unter https://www.weitmarer-brillenstudio.de.
 Claude kennt für die häufigen Aufgaben fertige Abläufe (neue Seite, Aktion, Urlaub, Foto, live schalten,
 rückgängig). Sie müssen nichts davon auswendig kennen: Sagen Sie einfach, was Sie möchten.
 Wenn Sie in der Testversion ein Terminformular ausprobieren, geht die Mail nur an ein Test-Postfach, nie an den Laden.

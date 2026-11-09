@@ -21,7 +21,7 @@ Ein Worker-Projekt, verbunden mit dem GitHub-Repo:
 | | Live-Seite | Testversion |
 |---|---|---|
 | Branch | `main` | `staging` |
-| Adresse | `[LIVE-URL]` (`www.weitmarer-brillenstudio.de`) | `[STAGING-URL]` (Vorschau-Adresse), mit Cloudflare Access geschützt (E-Mail-Code für Alexander und David) |
+| Adresse | `https://www.weitmarer-brillenstudio.de` (`www.weitmarer-brillenstudio.de`) | `[STAGING-URL]` (Vorschau-Adresse), mit Cloudflare Access geschützt (E-Mail-Code für Alexander und David) |
 | Google | wird indexiert | `noindex` |
 | Terminmails an | Postfach des Ladens | Test-Postfach (`TERMIN_TO_EMAIL_TEST`) |
 
