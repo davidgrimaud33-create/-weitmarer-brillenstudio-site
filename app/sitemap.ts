@@ -1,5 +1,8 @@
 import type { MetadataRoute } from 'next'
+
 import { SITE_URL } from '@/lib/feature-flags'
+
+export const dynamic = 'force-static'
 
 const SEITEN: { pfad: string; prio: number }[] = [
   { pfad: '', prio: 1 },

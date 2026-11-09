@@ -1,0 +1,16 @@
+# Alte WordPress-URLs → neue Struktur (Cloudflare-Format: <von> <nach> <status>)
+# Spezifische Regeln stehen vor den Wildcards.
+/angebote/* /service-preise#aktionen 301
+/relax24/ /service-preise#relax24 301
+/augenvorsorge/ /augengesundheit#screening 301
+/leistungen/was-hilft-bei-trockenen-augen/ /augengesundheit#trocken 301
+/leistungen/ /service-preise 301
+/produkte/kontaktlinsen/ /sehhilfen#linsen 301
+/produkte/glaeser/ /sehhilfen#glaeser 301
+/produkte/holzkern/ /holzkern 301
+/produkte/* /sehhilfen 301
+# Nur Unterseiten von /ueber-uns, nicht /ueber-uns bzw. /ueber-uns/ selbst (sonst Schleife)
+/ueber-uns/:sub /ueber-uns 301
+/ueber-uns/:sub/* /ueber-uns 301
+/kontakt/ /termin 301
+/datenschutzerklaerung/ /datenschutz 301
