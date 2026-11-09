@@ -1,13 +1,12 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { resolveImage } from '@/lib/image-resolver'
 import { stammdaten } from '@/lib/content'
 
 /** Bild mit automatischem WebP-Tausch */
 export function Bild(props: { src: string; alt: string; className?: string; style?: React.CSSProperties; sizes?: string; priority?: boolean }) {
   return (
     <Image
-      src={resolveImage(props.src)}
+      src={props.src}
       alt={props.alt}
       fill
       sizes={props.sizes ?? '(max-width: 768px) 100vw, 50vw'}

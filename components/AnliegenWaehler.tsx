@@ -4,7 +4,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 import type { Anliegen } from '@/lib/content'
-import { resolveImage } from '@/lib/image-resolver'
 
 /** „Was führt Sie zu uns?“ – Auswahl wechselt Empfehlung und führt mit Anliegen zur Terminanfrage */
 export function AnliegenWaehler({ anliegen }: { anliegen: Anliegen[] }) {
@@ -31,7 +30,7 @@ export function AnliegenWaehler({ anliegen }: { anliegen: Anliegen[] }) {
       </div>
       <div className="mt-4 flex flex-wrap items-center gap-4 rounded-2xl bg-grund p-3.5">
         <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-full">
-          <Image src={resolveImage(aktiv.bild)} alt="" fill sizes="96px" className="object-cover" />
+          <Image src={aktiv.bild} alt="" fill sizes="96px" className="object-cover" />
         </div>
         <div className="min-w-[180px] flex-1">
           <div className="text-[19px] font-bold">{aktiv.titel}</div>

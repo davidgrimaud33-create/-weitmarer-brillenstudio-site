@@ -47,3 +47,7 @@ public/video/*.webm
 
 # lokale Werkzeuge
 .claude/settings.local.json
+
+# erzeugte Bildgrößen (scripts/bildgroessen.mjs)
+public/_img/
+lib/bild-manifest.json
