@@ -1,0 +1,37 @@
+{
+  "_hinweis": "Monatsangebote für /angebote und die Startseite. Datum immer JJJJ-MM-TT. kategorie: fassungen | glaeser | kontaktlinsen. wertArt: rabatt (roter Stern) | preis (Preisschild) | aktion (große rote Schrift). Foto optional, dann bildAlt Pflicht. Solange \"entwurf\": true ist, lässt sich die Seite NICHT live schalten. Nach \"gueltigBis\" verschwinden die Angebote automatisch.",
+  "entwurf": true,
+  "monat": "November 2026",
+  "ueberschrift": "November-Preise",
+  "gueltigAb": "2026-11-01",
+  "gueltigBis": "2026-11-30",
+  "hinweis": "Beispiel-Angebote zur Ansicht – Preise und Bedingungen folgen aus dem Monatsprospekt.",
+  "angebote": [
+    {
+      "kategorie": "fassungen",
+      "titel": "Markenfassungen",
+      "text": "Aus der Herbstkollektion",
+      "wert": "−30 %",
+      "wertArt": "rabatt",
+      "bild": "/images/laden/fassungswand.jpg",
+      "bildAlt": "Fassungswand im Weitmarer Brillenstudio"
+    },
+    {
+      "kategorie": "glaeser",
+      "titel": "Gleitsicht komplett",
+      "text": "Fassung und zwei Gleitsichtgläser",
+      "wert": "299 €",
+      "wertVorsatz": "ab",
+      "wertArt": "preis",
+      "bild": "/images/laden/beratung.jpg",
+      "bildAlt": "Beratung zu Brillengläsern"
+    },
+    {
+      "kategorie": "kontaktlinsen",
+      "titel": "Monatslinsen",
+      "text": "4 Boxen mitnehmen, 3 bezahlen",
+      "wert": "3+1",
+      "wertArt": "aktion"
+    }
+  ]
+}

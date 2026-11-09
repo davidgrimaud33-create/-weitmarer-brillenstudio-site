@@ -42,6 +42,13 @@ Wenn Sie in der Testversion ein Terminformular ausprobieren, geht die Mail nur a
 - „Welche Aktionen laufen gerade, und wann enden sie?“
 - „Zeig mir alle Stellen, an denen noch eckige Klammern stehen.“ (das sind offene Platzhalter)
 
+## Monatsangebote
+
+Jeden Monat kommt das Angebots-PDF. Geben Sie es Claude und sagen Sie zum Beispiel:
+„Hier ist das neue Angebots-PDF für Dezember. Trag die Angebote ein.“ Claude liest die Angebote heraus,
+zeigt Ihnen die Liste zur Kontrolle und trägt sie erst nach Ihrem Ja ein. Die Angebote erscheinen auf der Seite
+„Angebote“ und als Band oben auf der Startseite. Nach dem letzten Gültigkeitstag verschwinden sie von selbst.
+
 ## Neue Seite bauen
 
 Neue Seiten setzen sich aus fertigen Bausteinen zusammen, im gleichen Design wie der Rest der Seite.

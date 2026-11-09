@@ -146,3 +146,36 @@ body {
 
 .scrollbar-schmal { scrollbar-width: thin; scroll-snap-type: x mandatory; }
 .scrollbar-schmal > * { scroll-snap-align: start; }
+
+/* ── Monatsangebote (/angebote, Startseiten-Band) ───────────────────────────
+   Einmalige Auftritte beim Laden, danach nur dezente Dauereffekte.
+   „Bewegung reduzieren“ schaltet alles ab (Regel oben). */
+@keyframes angAuf { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+@keyframes angLicht { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+@keyframes angPuls { 0% { transform: scale(.85); opacity: .9; } 100% { transform: scale(1.4); opacity: 0; } }
+@keyframes angStempel { 0% { transform: scale(2.4) rotate(-30deg); opacity: 0; } 60% { transform: scale(.9) rotate(-4deg); opacity: 1; } 80% { transform: scale(1.06) rotate(-10deg); } 100% { transform: scale(1) rotate(-8deg); } }
+@keyframes angWackeln { 0%, 90%, 100% { transform: rotate(-8deg); } 93% { transform: rotate(-14deg); } 96% { transform: rotate(-2deg); } }
+@keyframes angSchild { 0% { transform: translateY(-48px) rotate(-20deg); opacity: 0; } 60% { transform: translateY(4px) rotate(9deg); opacity: 1; } 80% { transform: rotate(2deg); } 100% { transform: rotate(4deg); } }
+@keyframes angPendeln { 0%, 100% { transform: rotate(4deg); } 50% { transform: rotate(-2deg); } }
+@keyframes angGlanz { 0% { transform: translateX(-120%) skewX(-20deg); } 60%, 100% { transform: translateX(420%) skewX(-20deg); } }
+@keyframes angZiffer { from { transform: translateY(70%); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes angTick { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(12deg); } }
+
+.ang-kopf { background: linear-gradient(120deg, #0E1B2B, #0A2F55, #0A62A8, #0A2F55); background-size: 300% 300%; animation: angLicht 12s ease-in-out infinite; }
+.ang-ring-dreht { animation: spinSlow 60s linear infinite; }
+.ang-puls { animation: angPuls 2.8s ease-out infinite; }
+.ang-puls-2 { animation-delay: 1.4s; }
+.ang-auf { animation: angAuf .7s cubic-bezier(.2,.7,.2,1) both; }
+.ang-uhr { animation: angTick 1s steps(2) infinite; }
+.ang-karte { transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s; }
+.ang-karte:hover { transform: translateY(-4px); box-shadow: 0 22px 36px -22px rgba(14,27,43,.5); }
+.ang-foto img { transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+.ang-karte:hover .ang-foto img { transform: scale(1.06); }
+.ang-stern {
+  clip-path: polygon(50% 0,61% 12%,76% 6%,80% 21%,95% 24%,90% 39%,100% 50%,90% 61%,95% 76%,80% 79%,76% 94%,61% 88%,50% 100%,39% 88%,24% 94%,20% 79%,5% 76%,10% 61%,0 50%,10% 39%,5% 24%,20% 21%,24% 6%,39% 12%);
+  animation: angStempel .6s cubic-bezier(.3,1.4,.5,1) 1.1s both, angWackeln 5s ease-in-out 2s infinite;
+}
+.ang-stern-klein { border-radius: 8px; transform: rotate(-4deg); }
+.ang-schild { transform-origin: 50% -10px; animation: angSchild .8s cubic-bezier(.3,1.3,.5,1) 1.3s both, angPendeln 3.2s ease-in-out 2.2s infinite; }
+.ang-band::after { content: ""; position: absolute; inset: 0; width: 30%; background: linear-gradient(90deg, transparent, rgba(255,255,255,.7), transparent); animation: angGlanz 3s ease-in-out 1.8s infinite; }
+.ang-ziffer { display: inline-block; animation: angZiffer .5s cubic-bezier(.3,1.4,.5,1) both; }

@@ -8,6 +8,7 @@ export const dynamic = 'force-static'
 
 const SEITEN: { pfad: string; prio: number }[] = [
   { pfad: '', prio: 1 },
+  { pfad: '/angebote', prio: 0.9 },
   { pfad: '/sehhilfen', prio: 0.9 },
   { pfad: '/augengesundheit', prio: 0.9 },
   { pfad: '/service-preise', prio: 0.8 },

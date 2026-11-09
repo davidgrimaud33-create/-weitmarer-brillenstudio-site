@@ -6,6 +6,8 @@ import { OeffnungszeitenKarte } from '@/components/Oeffnungszeiten'
 import { AktionStartseite } from '@/components/Aktionen'
 import { Icon, LogoAuge } from '@/components/Icon'
 import { MehrAlsBrillen } from '@/components/MehrAlsBrillen'
+import { AngeboteHinweis } from '@/components/angebote/Angebote'
+import { monatsangebote } from '@/lib/angebote-daten'
 
 const h = startseite.hero
 const meister = team.filter((m) => /meister/i.test(m.rolle)).length
@@ -14,6 +16,7 @@ export default function Startseite() {
   return (
     <>
       {/* ── Hero ─────────────────────────────────────────────── */}
+      <AngeboteHinweis daten={monatsangebote} />
       <HeroGrund>
         <section className="mx-auto flex max-w-[1320px] flex-wrap items-stretch gap-12 px-6 pb-20 pt-14">
           <div className="flex min-w-0 flex-[1_1_560px] flex-col justify-center">

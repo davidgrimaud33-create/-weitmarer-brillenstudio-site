@@ -9,7 +9,7 @@ Sprich mit Alexander auf Deutsch, in einfachen, ausformulierten Sätzen, ohne Fa
 ## Fertige Befehle (Skills in `.claude/skills/`)
 
 Für die häufigen Aufgaben gibt es Schritt-für-Schritt-Befehle. Nutze sie, sobald Alexanders Satz passt:
-`neue-seite`, `neue-aktion`, `urlaub-eintragen`, `foto-tauschen`, `live-schalten`, `rueckgaengig`.
+`neue-seite`, `angebote-aktualisieren`, `neue-aktion`, `urlaub-eintragen`, `foto-tauschen`, `live-schalten`, `rueckgaengig`.
 
 ## Der wichtigste Ablauf: erst Staging, dann live
 
@@ -42,7 +42,8 @@ auf der Testversion genügt der Git-Teil.
 |---|---|
 | Neue Seite (aus Bausteinen) | `content/seiten/<adresse>.json` (Befehl `neue-seite`) |
 | Öffnungszeiten, Feiertage, Urlaub | `content/oeffnungszeiten.json` → `regulaer` bzw. `ausnahmen` |
-| Aktionen / Angebote | `content/aktionen.json` (Start- und Enddatum, verschwinden automatisch) |
+| Monatsangebote aus dem Angebots-PDF (Seite `/angebote`, Band auf der Startseite) | `content/angebote.json` (Befehl `angebote-aktualisieren`) |
+| Eigene Aktionen unter „Service & Preise“ | `content/aktionen.json` (Start- und Enddatum, verschwinden automatisch) |
 | Team, Fotos, Schwerpunkte | `content/team.json` + Fotos in `public/images/team/` |
 | Marken | `content/marken.json` |
 | Garantien, RELAX24 | `content/garantien.json` |

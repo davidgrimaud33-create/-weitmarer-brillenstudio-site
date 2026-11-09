@@ -6,30 +6,30 @@ import { existsSync, statSync } from 'node:fs'
 import { join, resolve, sep } from 'node:path'
 import type { Baustein, Knopf, Seite } from './typen'
 
-type Objekt = Record<string, unknown>
-type Melde = (text: string) => never
+export type Objekt = Record<string, unknown>
+export type Melde = (text: string) => never
 
 const MENUES = ['haupt', 'fusszeile', 'versteckt']
 const LINK_ANFAENGE = ['/', '#', 'https://', 'tel:', 'mailto:']
 
-const istObjekt = (w: unknown): w is Objekt => typeof w === 'object' && w !== null && !Array.isArray(w)
+export const istObjekt = (w: unknown): w is Objekt => typeof w === 'object' && w !== null && !Array.isArray(w)
 const nichtLeer = (w: unknown): w is string => typeof w === 'string' && w.trim() !== ''
 
 /** Ein Prüfkontext: kennt Datei und (optional) Baustein und baut die Meldungen. */
-function kontext(datei: string, baustein?: string): Melde {
+export function kontext(datei: string, baustein?: string): Melde {
   return (text) => {
     throw new Error(`${datei}: ${baustein ? `${baustein}: ` : ''}${text}`)
   }
 }
 
-function text(o: Objekt, feld: string, melde: Melde, pflicht: boolean, pfad = feld): string | undefined {
+export function text(o: Objekt, feld: string, melde: Melde, pflicht: boolean, pfad = feld): string | undefined {
   const w = o[feld]
   if (w === undefined) return pflicht ? melde(`Das Feld "${pfad}" fehlt.`) : undefined
   if (!nichtLeer(w)) return melde(`Das Feld "${pfad}" muss ein Text sein und darf nicht leer sein.`)
   return w
 }
 
-function bild(o: Objekt, feld: string, melde: Melde, pflicht: boolean, pfad = feld) {
+export function bild(o: Objekt, feld: string, melde: Melde, pflicht: boolean, pfad = feld) {
   const w = text(o, feld, melde, pflicht, pfad)
   if (w !== undefined && !w.startsWith('/images/')) {
     melde(`Das Feld "${pfad}" muss mit /images/ beginnen (zum Beispiel /images/sportbrille.jpg).`)

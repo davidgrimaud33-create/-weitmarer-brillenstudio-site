@@ -1,6 +1,6 @@
 # Alte WordPress-URLs → neue Struktur (Cloudflare-Format: <von> <nach> <status>)
 # Spezifische Regeln stehen vor den Wildcards.
-/angebote/* /service-preise#aktionen 301
+/angebote/* /angebote 301
 /relax24/ /service-preise#relax24 301
 /augenvorsorge/ /augengesundheit#screening 301
 /leistungen/was-hilft-bei-trockenen-augen/ /augengesundheit#trocken 301

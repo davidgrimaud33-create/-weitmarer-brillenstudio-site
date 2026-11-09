@@ -24,6 +24,11 @@ Claude fragt nach, wenn etwas fehlt, und ändert zuerst nur die Testversion.
 11. „Zeig mir das Musterbuch.“ (Sie sehen alle Bausteine mit Nummer.)
 12. „Neue Seite [Kinderbrillen] wie Baustein 1, 3 und 9.“
 
+## Monatsangebote
+
+16. „Hier ist das neue Angebots-PDF für Dezember. Trag die Angebote auf der Website ein.“
+17. „Das Gleitsicht-Angebot gilt nicht mehr, nimm es bitte raus.“
+
 ## Live schalten und zurück
 
 13. „Passt, bitte live schalten.“

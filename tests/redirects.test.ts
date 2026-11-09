@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest'
 
 // Alte WordPress-URLs → neue Seiten (aus der früheren netlify.toml übernommen)
 const ERWARTET: [string, string][] = [
-  ['/angebote/*', '/service-preise#aktionen'],
+  ['/angebote/*', '/angebote'],
   ['/relax24/', '/service-preise#relax24'],
   ['/augenvorsorge/', '/augengesundheit#screening'],
   ['/leistungen/was-hilft-bei-trockenen-augen/', '/augengesundheit#trocken'],

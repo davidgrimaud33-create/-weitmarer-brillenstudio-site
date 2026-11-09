@@ -1,6 +1,6 @@
 ---
 name: neue-aktion
-description: Trägt eine neue Aktion oder ein Angebot ein, zum Beispiel "Neue Aktion: Gleitsichtbrille komplett ab 299 Euro im März", "wir haben ab Montag ein Sonnenbrillen-Angebot" oder "nimm die Aktion XY raus". Nutze diesen Befehl für alles, was Aktionen und Angebote auf der Website betrifft.
+description: Trägt eine neue Aktion oder ein Angebot ein, zum Beispiel "Neue Aktion: Gleitsichtbrille komplett ab 299 Euro im März", "wir haben ab Montag ein Sonnenbrillen-Angebot" oder "nimm die Aktion XY raus". Nutze diesen Befehl für eigene Aktionen des Ladens unter „Service & Preise“. Für die Monatsangebote aus dem Angebots-PDF (Seite /angebote) gibt es den Befehl `angebote-aktualisieren`.
 ---
 
 # Aktion eintragen oder ändern

@@ -1,7 +1,8 @@
 import type { Seite } from './bausteine/typen'
 
-// Hauptmenü (5 Bereiche, nach Anliegen sortiert). Reihenfolge = Anzeige.
+// Hauptmenü (Angebote + 4 Bereiche, nach Anliegen sortiert). Reihenfolge = Anzeige.
 export const HAUPTMENUE = [
+  { href: '/angebote', label: 'Angebote' },
   { href: '/sehhilfen', label: 'Sehhilfen' },
   { href: '/augengesundheit', label: 'Augengesundheit' },
   { href: '/service-preise', label: 'Service & Preise' },
@@ -21,6 +22,7 @@ export const SUCHINDEX: { titel: string; href: string; stichworte: string }[] = 
   { titel: 'Visualtraining', href: '/augengesundheit#visual', stichworte: 'visualtraining funktionaloptometrie wahrnehmung' },
   { titel: 'Garantien', href: '/service-preise#garantien', stichworte: 'garantie geld zurück verträglichkeit 3 jahre' },
   { titel: 'Ratenkauf RELAX24', href: '/service-preise#relax24', stichworte: 'relax24 raten finanzierung monatlich' },
+  { titel: 'Monatsangebote', href: '/angebote', stichworte: 'angebot angebote monat preis rabatt fassung gläser kontaktlinsen prospekt aktion' },
   { titel: 'Aktuelle Aktionen', href: '/service-preise#aktionen', stichworte: 'aktion angebot rabatt preis' },
   { titel: 'Reparatur & Brillenservice', href: '/service-preise#reparatur', stichworte: 'reparatur service reinigung nasenpad passform' },
   { titel: 'Holzkern-Uhren', href: '/holzkern', stichworte: 'holzkern uhr uhren holz stein armbanduhr geschenk' },
