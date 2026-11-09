@@ -88,7 +88,17 @@ export function Brotkruemel({ seite }: { seite: string }) {
   )
 }
 
-export function CtaBand({ titel, text, dunkel = true }: { titel: string; text?: string; dunkel?: boolean }) {
+/**
+ * Link für Knöpfe aus Inhaltsdateien: interne Adressen (/…, #…) über next/link,
+ * externe (https://…) in neuem Tab, tel:/mailto: als normaler Link.
+ */
+export function Verweis({ href, className, children }: { href: string; className?: string; children: React.ReactNode }) {
+  if (href.startsWith('/') || href.startsWith('#')) return <Link href={href} className={className}>{children}</Link>
+  if (/^https?:\/\//.test(href)) return <a href={href} target="_blank" rel="noopener noreferrer" className={className}>{children}</a>
+  return <a href={href} className={className}>{children}</a>
+}
+
+export function CtaBand({ titel, text, dunkel = true, knopf }: { titel: string; text?: string; dunkel?: boolean; knopf?: { text: string; link: string } }) {
   return (
     <section className="mx-auto max-w-[1320px] px-6 py-24">
       <div className={`a-reveal relative flex flex-wrap items-center justify-between gap-8 overflow-hidden rounded-[36px] p-[clamp(36px,6vw,72px)] text-white ${dunkel ? 'bg-ink' : 'bg-blau'}`}>
@@ -100,7 +110,7 @@ export function CtaBand({ titel, text, dunkel = true }: { titel: string; text?: 
           {text && <p className="mt-4 text-[19px] text-white/75">{text}</p>}
         </div>
         <div className="relative flex flex-wrap gap-3">
-          <Link href="/termin" className="rounded-full bg-white px-7 py-4 text-lg font-semibold text-ink no-underline hover:text-ink">Termin vereinbaren</Link>
+          <Verweis href={knopf?.link ?? '/termin'} className="rounded-full bg-white px-7 py-4 text-lg font-semibold text-ink no-underline hover:text-ink">{knopf?.text ?? 'Termin vereinbaren'}</Verweis>
           <a href={`tel:${stammdaten.telefonLink}`} className="rounded-full border border-white/50 px-7 py-4 text-lg font-semibold text-white no-underline hover:text-white">{stammdaten.telefon}</a>
         </div>
       </div>

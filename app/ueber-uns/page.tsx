@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { team, marken, stammdaten } from '@/lib/content'
 import { Bild, Brotkruemel, CtaBand, HeroGrund, LinsenBild } from '@/components/Gestaltung'
+import { MarkenListe } from '@/components/Marken'
 
 export const metadata: Metadata = {
   title: 'Über uns: Team und Laden',
@@ -108,11 +109,7 @@ export default function UeberUns() {
             <h2 className="display m-0 text-[clamp(40px,4.6vw,68px)]">{marken.length} Marken</h2>
             <p className="m-0 max-w-[420px] text-auf-dunkel">Von preiswerten Aktionsmodellen bis zu namhaften Designermarken.</p>
           </div>
-          <ul className="a-reveal m-0 flex list-none flex-wrap gap-2.5 p-0">
-            {marken.map((m, i) => (
-              <li key={m} className={`rounded-full px-[22px] py-3 text-xl font-bold uppercase [font-stretch:75%] ${i % 5 === 0 ? 'bg-blau' : 'border border-ink-line bg-ink-2 text-[#DCE4EC]'}`}>{m}</li>
-            ))}
-          </ul>
+          <MarkenListe />
         </div>
       </section>
 
