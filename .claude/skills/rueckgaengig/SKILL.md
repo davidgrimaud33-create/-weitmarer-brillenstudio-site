@@ -18,15 +18,16 @@ Der Befehl `npx wrangler rollback` stellt die vorherige Version der Live-Seite w
 Dieser Schritt ist ausdrücklich vom Notfallknopf gedeckt und braucht keine zweite Freigabe,
 aber **Alexander muss vorher sehen, wohin es zurückgeht, und bestätigen**:
 
-1. Liste der letzten Versionen anzeigen:
+1. Liste der Live-Veröffentlichungen anzeigen:
    ```
    npx wrangler deployments list
    ```
-   (zeigt die 10 letzten Veröffentlichungen mit Datum und Version-ID; die oberste ist die aktuelle).
-   Falls nötig zusätzlich `npx wrangler versions list`.
-2. Die **vorherige** Version (die direkt unter der aktuellen) heraussuchen. Alexander sagen:
-   "Die Live-Seite geht dann zurück auf den Stand vom [DATUM, UHRZEIT] (Version [ID]). Das ist der
-   Stand vor Ihrer letzten Änderung. Soll ich das tun?" Auf ein klares Ja warten.
+   (zeigt die 10 letzten Veröffentlichungen der Live-Seite mit Datum und Version-ID; die oberste ist die aktuelle).
+   Das Ziel kommt **ausschließlich aus dieser Liste**. Nimm **nie** eine Version, die nur in
+   `npx wrangler versions list` auftaucht: Das sind auch Testversionen von `staging`, die nie live waren.
+2. Die **vorherige** Veröffentlichung (die direkt unter der aktuellen) heraussuchen. Alexander sagen:
+   "Die Live-Seite geht dann zurück auf die Version, die vorher live war, vom [DATUM, UHRZEIT]
+   (Version [ID]). Das ist der Stand vor Ihrer letzten Änderung. Soll ich das tun?" Auf ein klares Ja warten.
 3. Zurückrollen, mit Begründung:
    ```
    npx wrangler rollback <VERSION-ID> --message "Notfall: letzte Änderung rückgängig" --yes

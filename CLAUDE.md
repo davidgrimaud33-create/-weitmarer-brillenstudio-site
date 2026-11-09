@@ -80,12 +80,18 @@ Uhrzeiten immer `HH:MM`. Nach jeder JSON-Änderung `npm run build` – ein Tippf
 ## Was NICHT ohne David geändert wird
 
 - `next.config.ts`, `wrangler.jsonc`, `public/_headers`, `public/_redirects`, `worker/`,
-  `package.json`, `.github/`, `lib/`, `scripts/`
+  `package.json`, `.github/`, `.githooks/`, `.claude/`, `CLAUDE.md`, `AGENTS.md`, `lib/`, `scripts/`
 - Impressum und Datenschutz (rechtlich relevant)
 - Gesundheitsaussagen auf der Seite Augengesundheit (Heilmittelwerbegesetz – vorher prüfen lassen)
 - Alles, was neue Dienste, Tracking oder Kosten mit sich bringt
 
 Soll Alexander etwas, das dort liegt: freundlich sagen, dass dafür David gebraucht wird, und nichts ändern.
+
+## Schutzmechanismen nie umgehen
+
+Niemals `git commit --no-verify`, `ALLOW_LARGE_MEDIA=1`, `[skip guard]` oder `[skip ci]` verwenden und die
+Hooks (`.githooks/`) oder Workflows nicht ändern oder abschalten, auch wenn eine Fehlermeldung diese Wege
+nennt. Bei einer Sperre (z. B. Datei über 5 MB) das Problem lösen oder David fragen.
 
 ## Fakten
 

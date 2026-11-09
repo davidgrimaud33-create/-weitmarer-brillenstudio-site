@@ -68,8 +68,9 @@ npm run typecheck:worker
 
 ## Betrieb / Einrichtung Cloudflare
 
-Ein Worker-Projekt `weitmarer-brillenstudio`, per Workers Builds mit GitHub verbunden (Build-Befehl `npm run build`,
-Deploy `npx wrangler deploy`; Branch `main` = Produktion, andere Branches = Vorschau-Versionen, `preview_urls: true`).
+Ein Worker-Projekt `weitmarer-brillenstudio`, per Workers Builds mit GitHub verbunden (Build-Befehl `npm run build`;
+Produktions-Branch `main` → Deploy-Befehl `npx wrangler deploy`; Nicht-Produktions-Branches wie `staging` →
+`npx wrangler versions upload` (erzeugt eine Vorschau-Version mit eigener URL, `preview_urls: true`, ohne die Live-Seite zu ändern).
 Die Testversion wird erkannt über `WORKERS_CI_BRANCH` (≠ `main` → `NEXT_PUBLIC_IS_STAGING=true`, `noindex`).
 Geheimnisse und Variablen im Cloudflare-Dashboard (bzw. `wrangler secret put`), nie in `wrangler.jsonc` oder im Repo.
 
@@ -101,7 +102,7 @@ Voraussetzungen, die man leicht vergisst:
 - Testversion schützen: Cloudflare Access (E-Mail-Code für Alexander und David) auf die Vorschau-Adresse legen, damit niemand
   Fremdes sie findet.
 - Rückgängig-Machen der Live-Seite: `npx wrangler deployments list` / `npx wrangler rollback <VERSION-ID> --message "…"`
-  (Ablauf im Skill `rueckgaengig`; setzt `wrangler login` bzw. einen API-Token voraus).
+  (Ziel nur aus `deployments list`, nie aus `versions list`, da dort auch nie veröffentlichte Staging-Versionen stehen; Ablauf im Skill `rueckgaengig`; setzt `wrangler login` bzw. einen API-Token voraus).
 
 ## Offene Punkte
 

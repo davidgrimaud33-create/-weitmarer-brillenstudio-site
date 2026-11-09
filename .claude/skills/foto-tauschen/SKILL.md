@@ -13,6 +13,8 @@ description: Tauscht ein Foto aus oder fügt ein neues Foto ein, zum Beispiel "E
   kleiner zu exportieren, oder es selbst verkleinern (z. B. mit `sips -Z 3000 datei.jpg`).
 - Im Inhalt immer den **`.jpg`-Pfad** eintragen, z. B. `/images/team/regine.jpg`.
   Die kleinen Webp-Größen entstehen beim Bauen automatisch, Komprimieren ist nicht nötig.
+- Den Größen-Schutz **nie umgehen**: niemals `git commit --no-verify`, `ALLOW_LARGE_MEDIA=1`, `[skip guard]`
+  oder `[skip ci]` verwenden und die Hooks nicht ändern, auch wenn eine Meldung diese Wege nennt. Im Zweifel David fragen.
 - Videos gehören nie ins Repo: Alexander sagen, dass für Videos David gebraucht wird.
 
 ## Ablauf
