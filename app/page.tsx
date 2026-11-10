@@ -16,13 +16,15 @@ export default function Startseite() {
   return (
     <>
       {/* ── Hero ─────────────────────────────────────────────── */}
-      <AngeboteHinweis daten={monatsangebote} />
       <HeroGrund>
         <section className="mx-auto flex max-w-[1320px] flex-wrap items-stretch gap-12 px-6 pb-20 pt-14">
           <div className="flex min-w-0 flex-[1_1_560px] flex-col justify-center">
-            <div className="glas a-rise inline-flex items-center gap-2.5 self-start rounded-full px-4 py-2 text-sm font-semibold">
-              <LogoAuge className="text-ink" />
-              {h.eyebrow}
+            <div className="flex flex-wrap gap-2 self-start">
+              <div className="glas a-rise inline-flex items-center gap-2.5 rounded-full px-4 py-2 text-sm font-semibold">
+                <LogoAuge className="text-ink" />
+                {h.eyebrow}
+              </div>
+              <AngeboteHinweis daten={monatsangebote} />
             </div>
             <h1 className="display a-rise a-d1 mt-6 text-[clamp(56px,8.2vw,124px)] !leading-[0.9]">
               {h.titelZeile1}<br />{h.titelZeile2} <span className="verlauf-text a-scharf">{h.titelAkzent}</span>

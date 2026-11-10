@@ -155,21 +155,21 @@ export function AngeboteAnsicht({ daten }: { daten: Angebote }) {
   )
 }
 
-/** Band auf der Startseite – verschwindet, wenn keine Angebote gelten. */
+/** Dezenter Link im Hero der Startseite – verschwindet, wenn keine Angebote gelten. */
 export function AngeboteHinweis({ daten }: { daten: Angebote }) {
   const status = useStatus(daten)
   if (status && !status.aktiv) return null
-  const anzahl = daten.angebote.length
   return (
-    <section className="mx-auto max-w-[1320px] px-6 pt-5">
-      <Link href="/angebote" className="ang-kopf ang-karte group relative flex flex-wrap items-center gap-4 overflow-hidden rounded-[20px] px-5 py-3.5 text-white no-underline hover:text-white">
-        <div aria-hidden className="ang-puls absolute -right-6 -top-10 h-[140px] w-[140px] rounded-full border-2 border-pupille/80" />
-        <span className="ang-stern-klein bg-pupille px-3 py-1.5 text-[12px] font-extrabold uppercase tracking-[0.1em]">Neu im {daten.monat.split(' ')[0]}</span>
-        <span className="min-w-[200px] flex-1 text-[17px] font-bold">
-          {anzahl} {anzahl === 1 ? 'Monatsangebot' : 'Monatsangebote'} für {[...new Set(daten.angebote.map((a) => KATEGORIEN[a.kategorie]))].join(', ').replace(/, (?=[^,]*$)/, ' und ')}
-        </span>
-        <span className="relative rounded-full bg-white px-5 py-2.5 text-[15px] font-bold text-ink transition-transform group-hover:translate-x-1">Angebote ansehen →</span>
-      </Link>
-    </section>
+    <Link
+      href="/angebote"
+      className="glas a-rise group inline-flex items-center gap-2 self-start rounded-full px-4 py-2 text-sm font-semibold text-ink no-underline hover:text-ink"
+    >
+      <span aria-hidden className="relative flex h-2 w-2">
+        <span className="ang-punkt absolute inline-flex h-full w-full rounded-full bg-pupille" />
+        <span className="relative inline-flex h-2 w-2 rounded-full bg-pupille" />
+      </span>
+      Monatsangebote {daten.monat.split(' ')[0]}
+      <span aria-hidden className="transition-transform group-hover:translate-x-0.5">→</span>
+    </Link>
   )
 }
