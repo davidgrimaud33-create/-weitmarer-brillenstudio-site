@@ -6,7 +6,7 @@ import { OeffnungszeitenKarte } from '@/components/Oeffnungszeiten'
 import { AktionStartseite } from '@/components/Aktionen'
 import { Icon, LogoAuge } from '@/components/Icon'
 import { MehrAlsBrillen } from '@/components/MehrAlsBrillen'
-import { AngeboteHinweis } from '@/components/angebote/Angebote'
+import { AngeboteBand, AngeboteHinweis } from '@/components/angebote/Angebote'
 import { monatsangebote } from '@/lib/angebote-daten'
 
 const h = startseite.hero
@@ -16,10 +16,11 @@ export default function Startseite() {
   return (
     <>
       {/* ── Hero ─────────────────────────────────────────────── */}
+      <AngeboteBand daten={monatsangebote} />
       <HeroGrund>
         <section className="mx-auto flex max-w-[1320px] flex-wrap items-stretch gap-12 px-6 pb-20 pt-14">
           <div className="flex min-w-0 flex-[1_1_560px] flex-col justify-center">
-            <div className="flex flex-wrap gap-2 self-start">
+            <div className="flex flex-wrap items-center gap-2 self-start">
               <div className="glas a-rise inline-flex items-center gap-2.5 rounded-full px-4 py-2 text-sm font-semibold">
                 <LogoAuge className="text-ink" />
                 {h.eyebrow}
